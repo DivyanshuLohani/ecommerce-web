@@ -131,7 +131,7 @@ export default function RegisterForm({
             {/* {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )} */}
-            Login
+            Signup
           </Button>
         </div>
       </form>

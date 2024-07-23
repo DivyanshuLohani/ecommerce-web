@@ -5,7 +5,7 @@ export default function page() {
   return (
     <div>
       <h1 className="text-2xl mb-5">Login</h1>
-      <LoginForm />;
+      <LoginForm />
     </div>
   );
 }
