@@ -4,8 +4,8 @@ import { MapPin, Phone, Mail } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="flex flex-col px-5 md:px-10 py-10 w-full">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 w-full gap-10">
+    <footer className="flex flex-col border-t  pt-10 pb-5 w-full">
+      <div className="px-5 md:px-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 w-full gap-10 pb-5">
         <div className="about">
           <h4 className="text-lg font-semibold mb-5 uppercase">About Us</h4>
           <p>
@@ -105,6 +105,18 @@ export default function Footer() {
             </Link>
           </ul>
         </div>
+      </div>
+      <div className="flex justify-between border-t items-center py-3 px-5 md:px-10">
+        <span>Copyright&copy;{new Date().getFullYear()}</span>
+        <span>
+          <Link
+            href={"https://divyanshulohani.github.io/"}
+            referrerPolicy="no-referrer"
+            className="hover:text-[#4050f8] transition-colors duration-300"
+          >
+            Developed by Divyanshu Lohani
+          </Link>
+        </span>
       </div>
     </footer>
   );
