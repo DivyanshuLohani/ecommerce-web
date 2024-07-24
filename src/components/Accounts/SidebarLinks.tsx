@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 
 export default function SidebarLinks() {
   const pathname = usePathname();
-  console.log(pathname);
   return (
     <ul className="flex flex-col">
       <Link
