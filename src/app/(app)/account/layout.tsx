@@ -3,11 +3,11 @@ import React from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex gap-10 pr-5 md:pr-10">
+    <div className="flex gap-10 md:pr-10">
       <aside className=" border-r">
         <SidebarLinks />
       </aside>
-      <article className="min-h-screen">{children}</article>
+      <article className="min-h-screen w-full">{children}</article>
     </div>
   );
 }
