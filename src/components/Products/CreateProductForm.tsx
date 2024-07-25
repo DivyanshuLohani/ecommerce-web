@@ -2,14 +2,7 @@
 
 import type { Category } from "@prisma/client";
 import Link from "next/link";
-import {
-  TagIcon,
-  UserCircleIcon,
-  List,
-  IndianRupeeIcon,
-  Package,
-  Image,
-} from "lucide-react";
+import { TagIcon, List, IndianRupeeIcon, Package, Image } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useFormState } from "react-dom";
 import { createProduct } from "@/lib/actions";
@@ -19,11 +12,8 @@ import { Textarea } from "../ui/textarea";
 import { useState } from "react";
 
 export default function Form({ categories }: { categories: Category[] }) {
-  //   const initialState = { message: null, errors: {} };
-  const [state, dispatch] = useFormState(createProduct, {
-    message: "",
-    errors: {},
-  });
+  const initialState = { message: "", errors: {} };
+  const [state, dispatch] = useFormState(createProduct, initialState);
 
   const [image, setImage] = useState<string>("");
 

@@ -58,7 +58,7 @@ export async function createProduct(
   }
 
   try {
-    const newProduct = await prisma.product.create({
+    await prisma.product.create({
       data: {
         name,
         description,
@@ -69,11 +69,9 @@ export async function createProduct(
         status: ProductStatus.ACTIVE,
       },
     });
-
-    console.log(newProduct);
   } catch (error) {
     return {
-      message: "Database Error: Failed to Create Invoice.",
+      message: "Database Error: Failed to Create Product.",
     };
   }
 

@@ -23,22 +23,22 @@ import type { Product as IProduct } from "@prisma/client";
 
 export function ProductsTable({
   products,
-  offset,
+  page,
   totalProducts,
 }: {
   products: IProduct[];
-  offset: number;
+  page: number;
   totalProducts: number;
 }) {
   let router = useRouter();
-  let productsPerPage = 5;
+  let productsPerPage = 10;
 
   function prevPage() {
     router.back();
   }
 
   function nextPage() {
-    router.push(`/?offset=${offset}`, { scroll: false });
+    router.push(`/admin/products/?page=${page + 1}`, { scroll: false });
   }
 
   return (
@@ -60,7 +60,7 @@ export function ProductsTable({
               <TableHead>Status</TableHead>
               <TableHead className="hidden md:table-cell">Price</TableHead>
               <TableHead className="hidden md:table-cell">
-                Total Sales
+                Total Units in Stock
               </TableHead>
               <TableHead className="hidden md:table-cell">Created at</TableHead>
               <TableHead>
@@ -80,7 +80,8 @@ export function ProductsTable({
           <div className="text-xs text-muted-foreground">
             Showing{" "}
             <strong>
-              {Math.min(offset - productsPerPage, totalProducts) + 1}-{offset}
+              {Math.min((page - 1) * productsPerPage, totalProducts) + 1}-
+              {Math.min(page * productsPerPage, totalProducts)}
             </strong>{" "}
             of <strong>{totalProducts}</strong> products
           </div>
@@ -90,7 +91,7 @@ export function ProductsTable({
               variant="ghost"
               size="sm"
               type="submit"
-              disabled={offset === productsPerPage}
+              disabled={page === 1}
             >
               <ChevronLeft className="mr-2 h-4 w-4" />
               Prev
@@ -100,7 +101,9 @@ export function ProductsTable({
               variant="ghost"
               size="sm"
               type="submit"
-              disabled={offset + productsPerPage > totalProducts}
+              disabled={
+                (page - 1) * productsPerPage + productsPerPage > totalProducts
+              }
             >
               Next
               <ChevronRight className="ml-2 h-4 w-4" />

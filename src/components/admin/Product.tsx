@@ -11,6 +11,7 @@ import {
 import { MoreHorizontal } from "lucide-react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { Product as IProduct } from "@prisma/client";
+import { formatCurrency } from "@/lib/utils";
 
 export function Product({ product }: { product: IProduct }) {
   return (
@@ -30,7 +31,9 @@ export function Product({ product }: { product: IProduct }) {
           {product.status}
         </Badge>
       </TableCell>
-      <TableCell className="hidden md:table-cell">{`$${product.price}`}</TableCell>
+      <TableCell className="hidden md:table-cell">{`₹${formatCurrency(
+        product.price
+      )}`}</TableCell>
       <TableCell className="hidden md:table-cell">{product.stock}</TableCell>
       <TableCell className="hidden md:table-cell">
         {product.createdAt.toLocaleDateString()}

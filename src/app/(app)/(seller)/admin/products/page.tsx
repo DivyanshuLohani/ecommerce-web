@@ -3,20 +3,17 @@ import { File, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductsTable } from "@/components/admin/ProductTable";
 import Link from "next/link";
+import { fetchProducts } from "@/lib/data";
 // import { getProducts } from '@/lib/db';
 
 export default async function ProductsPage({
   searchParams,
 }: {
-  searchParams: { q: string; offset: string };
+  searchParams: { q: string; page: string };
 }) {
   const search = searchParams.q ?? "";
-  const offset = searchParams.offset ?? 0;
-  const { products, newOffset, totalProducts } = {
-    products: [],
-    newOffset: 0,
-    totalProducts: 10,
-  };
+  const page = searchParams.page ?? 1;
+  const { products, totalProducts } = await fetchProducts(parseInt(page));
 
   return (
     <Tabs defaultValue="all">
@@ -49,7 +46,7 @@ export default async function ProductsPage({
       <TabsContent value="all">
         <ProductsTable
           products={products}
-          offset={newOffset ?? 0}
+          page={parseInt(page)}
           totalProducts={totalProducts}
         />
       </TabsContent>
