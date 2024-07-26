@@ -16,3 +16,11 @@ export function formatCurrency(amount: number) {
     maximumFractionDigits: 2,
   }).format(amount / 100);
 }
+
+export function slugify(string: string) {
+  return string
+    .toLowerCase()
+    .trim()
+    .replace(/[\s\W-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}

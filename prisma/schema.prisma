@@ -28,6 +28,7 @@ model Product {
   imageUrl    String?
   categoryId  Int
   category    Category       @relation(fields: [categoryId], references: [id])
+  slug        String         @default("")
   orders      OrderProduct[]
   status      ProductStatus  @default(ACTIVE)
   createdAt   DateTime       @default(now())

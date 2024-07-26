@@ -7,6 +7,7 @@ import { prisma } from "./prisma";
 import { ProductStatus } from "@prisma/client";
 import { v2 as cloudinary } from "cloudinary";
 import { CategoryFormState, CreateCategory } from "./validations/category";
+import { slugify } from "./utils";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -67,6 +68,7 @@ export async function createProduct(
         stock,
         imageUrl,
         categoryId,
+        slug: slugify(name),
         status: ProductStatus.ACTIVE,
       },
     });
@@ -129,6 +131,7 @@ export async function editProduct(
         stock,
         imageUrl,
         categoryId,
+        slug: slugify(name),
         status: ProductStatus.ACTIVE,
       },
     });
