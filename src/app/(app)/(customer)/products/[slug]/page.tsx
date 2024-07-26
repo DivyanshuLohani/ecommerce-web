@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { fetchProduct, fetchProductImages } from "@/lib/data";
+import { ProductDescription } from "@/components/Products/ProductDescription";
 
 export async function generateMetadata({
   params,
@@ -77,7 +78,7 @@ export default async function ProductPage({
           </div>
 
           <div className="basis-full lg:basis-2/6">
-            {/* <ProductDescription product={product} /> */}
+            <ProductDescription product={product} />
           </div>
         </div>
         {/* <RelatedProducts id={product.id} /> */}
