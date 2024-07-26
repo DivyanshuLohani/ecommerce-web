@@ -7,6 +7,7 @@ import React, {
   useEffect,
 } from "react";
 import type { Product } from "@prisma/client";
+import useLocalStorage from "@/hooks/useLocalstorage";
 
 interface CartContextState {
   products: { product: Product; quantity: number }[];
@@ -21,9 +22,11 @@ interface CartContextState {
 const CartContext = createContext<CartContextState | null>(null);
 
 const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [cart, setCart] = useState<{ product: Product; quantity: number }[]>(
-    []
-  );
+  const [localStore, setLocalStore] = useLocalStorage<
+    { product: Product; quantity: number }[]
+  >("cart", []);
+  const [cart, setCart] =
+    useState<{ product: Product; quantity: number }[]>(localStore);
   const [cartOpen, setCartOpen] = useState(false);
   const [cartTotal, setCartTotal] = useState(0);
 
@@ -31,7 +34,8 @@ const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     let total = 0;
     cart.forEach((crr) => (total += crr.product.price * crr.quantity));
     setCartTotal(total);
-  }, [cart]);
+    setLocalStore(cart);
+  }, [cart, setLocalStore]);
 
   const addProduct = (product: Product, qty: number) => {
     setCart((prevCart) => {

@@ -1,3 +1,4 @@
+"use client";
 import type { Product } from "@prisma/client";
 import React from "react";
 import Image from "next/image";
@@ -38,7 +39,10 @@ export default function CartProduct({
           </Button>
           <span>{product.quantity}</span>
           <Button onClick={() => addProduct(product.product, 1)}>+</Button>
-          <Button variant={"outline"}>
+          <Button
+            onClick={() => removeProduct(product.product.id, product.quantity)}
+            variant={"outline"}
+          >
             <Trash2 />
           </Button>
         </div>
