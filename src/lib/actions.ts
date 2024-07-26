@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { CreateProduct } from "./validations/product";
+import { CreateProduct, EditProduct } from "./validations/product";
 import { prisma } from "./prisma";
 import { ProductStatus } from "@prisma/client";
 import { v2 as cloudinary } from "cloudinary";
@@ -60,6 +60,68 @@ export async function createProduct(
 
   try {
     await prisma.product.create({
+      data: {
+        name,
+        description,
+        price,
+        stock,
+        imageUrl,
+        categoryId,
+        status: ProductStatus.ACTIVE,
+      },
+    });
+  } catch (error) {
+    return {
+      message: "Database Error: Failed to Create Product.",
+    };
+  }
+
+  revalidatePath("/admin/products/");
+  revalidatePath("/admin/");
+  redirect("/admin/products/");
+}
+
+export async function editProduct(
+  prevState: ProductFormState,
+  formData: FormData
+) {
+  const validatedFields = EditProduct.safeParse({
+    id: parseInt(formData.get("id") as string),
+    name: formData.get("name"),
+    description: formData.get("description"),
+    price: parseFloat(formData.get("price") as string),
+    stock: parseInt(formData.get("stock") as string, 10),
+    imageUrl: formData.get("imageUrl"),
+    categoryId: parseInt(formData.get("categoryId") as string, 10),
+    status: "ACTIVE",
+  });
+
+  if (!validatedFields.success) {
+    console.log(validatedFields.error.flatten().fieldErrors);
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Edit Product.",
+    };
+  }
+  const product = await prisma.product.findFirst({
+    where: { id: validatedFields.data.id },
+  });
+
+  let { id, name, description, price, stock, imageUrl, categoryId, status } =
+    validatedFields.data;
+
+  price *= 100;
+
+  if (imageUrl && imageUrl != product?.imageUrl) {
+    const uploadResult = await cloudinary.uploader.upload(imageUrl);
+    imageUrl = uploadResult.secure_url;
+  }
+
+  try {
+    await prisma.product.update({
+      where: {
+        id,
+      },
       data: {
         name,
         description,

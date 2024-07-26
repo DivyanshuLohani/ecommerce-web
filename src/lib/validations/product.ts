@@ -23,4 +23,8 @@ export const CreateProduct = ProductSchema.omit({
   createdAt: true,
   updatedAt: true,
 });
+export const EditProduct = ProductSchema.omit({
+  createdAt: true,
+  updatedAt: true,
+});
 export default ProductSchema;

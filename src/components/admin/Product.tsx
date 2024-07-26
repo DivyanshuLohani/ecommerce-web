@@ -12,20 +12,25 @@ import { MoreHorizontal } from "lucide-react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { Product as IProduct } from "@prisma/client";
 import { formatCurrency } from "@/lib/utils";
+import Link from "next/link";
 
 export function Product({ product }: { product: IProduct }) {
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
-        <Image
-          alt="Product image"
-          className="aspect-square rounded-md object-cover"
-          height="64"
-          src={product.imageUrl || "Placeholder"}
-          width="64"
-        />
+        <Link href={`/admin/products/${product.id}/`}>
+          <Image
+            alt="Product image"
+            className="aspect-square rounded-md object-cover"
+            height="64"
+            src={product.imageUrl || "Placeholder"}
+            width="64"
+          />
+        </Link>
       </TableCell>
-      <TableCell className="font-medium">{product.name}</TableCell>
+      <TableCell className="font-medium">
+        <Link href={`/admin/products/${product.id}/`}>{product.name}</Link>
+      </TableCell>
       <TableCell>
         <Badge variant="outline" className="capitalize">
           {product.status}

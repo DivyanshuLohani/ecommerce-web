@@ -26,3 +26,9 @@ export async function fetchProducts(currentPage: number) {
     return { products: [], totalProducts: 0 };
   }
 }
+
+export async function fetchProduct(id: number) {
+  return await prisma.product.findFirst({
+    where: { id },
+  });
+}
