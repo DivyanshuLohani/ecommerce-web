@@ -62,6 +62,7 @@ model OrderProduct {
 model Category {
   id        Int       @id @default(autoincrement())
   name      String
+  imageUrl  String    @default("")
   products  Product[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

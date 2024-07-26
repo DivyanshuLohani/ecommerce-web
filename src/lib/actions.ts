@@ -6,6 +6,7 @@ import { CreateProduct } from "./validations/product";
 import { prisma } from "./prisma";
 import { ProductStatus } from "@prisma/client";
 import { v2 as cloudinary } from "cloudinary";
+import { CategoryFormState, CreateCategory } from "./validations/category";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -76,6 +77,46 @@ export async function createProduct(
   }
 
   revalidatePath("/admin/products/");
+  revalidatePath("/admin/");
+  redirect("/admin/products/");
+}
+
+export async function createCategory(state: CategoryFormState, data: FormData) {
+  const validatedFormData = CreateCategory.safeParse({
+    name: (data.get("name") as string) ?? "",
+    imageUrl: (data.get("image") as string) ?? "",
+  });
+
+  if (!validatedFormData.success) {
+    return {
+      errors: validatedFormData.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Create Category.",
+    };
+  }
+
+  let { name, imageUrl } = validatedFormData.data;
+
+  if (imageUrl) {
+    const uploadResult = await cloudinary.uploader.upload(imageUrl);
+    imageUrl = uploadResult.secure_url;
+  }
+
+  try {
+    await prisma.category.create({
+      data: {
+        name,
+        imageUrl,
+      },
+    });
+  } catch (e) {
+    console.log("Error creating category", e);
+    return {
+      message: "Database Error please try again later.",
+    };
+  }
+
+  revalidatePath("/admin/products/");
+  revalidatePath("/admin/products/create/");
   revalidatePath("/admin/");
   redirect("/admin/products/");
 }
