@@ -32,3 +32,10 @@ export async function fetchProduct(id: number) {
     where: { id },
   });
 }
+export async function fetchProductImages(id: number) {
+  return await prisma.productImages.findMany({
+    where: {
+      productId: id,
+    },
+  });
+}
