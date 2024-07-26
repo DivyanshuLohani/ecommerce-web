@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@prisma/client";
 import { formatCurrency } from "@/lib/utils";
+import AddToCart from "../Cart/AddToCart";
 
 export default function ProductCard({ product }: { product: Product }) {
   return (
@@ -32,9 +33,7 @@ export default function ProductCard({ product }: { product: Product }) {
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full" size={"lg"}>
-          Add to Cart
-        </Button>
+        <AddToCart className="w-full" product={product} />
       </CardFooter>
     </Card>
   );
