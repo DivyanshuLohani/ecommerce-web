@@ -1,6 +1,8 @@
+"use client";
 import { formatCurrency } from "@/lib/utils";
 import type { Product } from "@prisma/client";
 import { Suspense } from "react";
+import AddToCart from "../Cart/AddToCart";
 
 export function ProductDescription({ product }: { product: Product }) {
   return (
@@ -22,12 +24,9 @@ export function ProductDescription({ product }: { product: Product }) {
         </div>
       ) : null}
 
-      {/* <Suspense fallback={null}>
-        <AddToCart
-          variants={product.variants}
-          availableForSale={product.availableForSale}
-        />
-      </Suspense> */}
+      <Suspense fallback={null}>
+        <AddToCart product={product} />
+      </Suspense>
     </>
   );
 }
