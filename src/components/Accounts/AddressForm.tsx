@@ -11,30 +11,65 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { useFormState } from "react-dom";
+import { addAddress } from "@/lib/actions";
 
 export default function AddressForm() {
   const session = useSession();
+  const [state, dispatch] = useFormState(addAddress, {
+    message: "",
+    errors: {},
+  });
   return (
-    <div className="py-2 w-full">
+    <form className="py-2 w-full" action={dispatch}>
       <div className="input my-4">
         <Label htmlFor="name">Billing Name</Label>
-        <Input id="name" defaultValue={session?.data?.user.name} required />
+        <Input
+          id="name"
+          defaultValue={session?.data?.user.name}
+          aria-describedby="name-error"
+          name="name"
+        />
+        {state.errors?.name && (
+          <span id="name-error" className="text-red-600">
+            {state.errors.name[0]}
+          </span>
+        )}
       </div>
       <div className="input my-2">
         <Label htmlFor="address1">Address Line 1</Label>
-        <Input id="address1" required />
+        <Input id="address1" aria-describedby="address-error" name="address" />
+        {state.errors?.address && (
+          <span id="address-error" className="text-red-600">
+            {state.errors.address[0]}
+          </span>
+        )}
       </div>
       <div className="input my-2">
         <Label htmlFor="address2">Address Line 2</Label>
-        <Input id="address2" />
+        <Input
+          id="address2"
+          aria-describedby="address-2-error"
+          name="address2"
+        />
+        {state.errors?.address2 && (
+          <span id="address-2-error" className="text-red-600">
+            {state.errors.address2[0]}
+          </span>
+        )}
       </div>
       <div className="input my-2">
         <Label htmlFor="city">City</Label>
-        <Input id="city" required />
+        <Input id="city" aria-describedby="city-error" name="city" />
+        {state.errors?.city && (
+          <span id="city-error" className="text-red-600">
+            {state.errors.city[0]}
+          </span>
+        )}
       </div>
       <div className="input my-2">
         <Label htmlFor="state">State</Label>
-        <Select>
+        <Select name="state">
           <SelectTrigger>
             <SelectValue placeholder="Select a state" />
           </SelectTrigger>
@@ -77,13 +112,23 @@ export default function AddressForm() {
             <SelectItem value="PY">Puducherry</SelectItem>
           </SelectContent>
         </Select>
+        {state.errors?.state && (
+          <span id="state-error" className="text-red-600">
+            {state.errors.state[0]}
+          </span>
+        )}
       </div>
       <div className="input my-2">
         <Label htmlFor="pin">Pincode</Label>
-        <Input id="pin" required />
+        <Input id="pin" aria-describedby="pincode-error" name="pincode" />
+        {state.errors?.pincode && (
+          <span id="pincode-error" className="text-red-600">
+            {state.errors.pincode[0]}
+          </span>
+        )}
       </div>
 
-      <Button>Add</Button>
-    </div>
+      <Button>Proceed to payment</Button>
+    </form>
   );
 }

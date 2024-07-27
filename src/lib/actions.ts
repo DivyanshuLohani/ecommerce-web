@@ -8,6 +8,9 @@ import { ProductStatus } from "@prisma/client";
 import { v2 as cloudinary } from "cloudinary";
 import { CategoryFormState, CreateCategory } from "./validations/category";
 import { slugify } from "./utils";
+import { AddressState, CreateAddress } from "./validations/address";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./auth";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -184,4 +187,53 @@ export async function createCategory(state: CategoryFormState, data: FormData) {
   revalidatePath("/admin/products/create/");
   revalidatePath("/admin/");
   redirect("/admin/products/");
+}
+
+export async function addAddress(state: AddressState, data: FormData) {
+  const session = await getServerSession(authOptions);
+  if (!session) return { message: "Error user not logged in", errors: {} };
+  const formData = {
+    name: data.get("name"),
+    address: data.get("address"),
+    address2: data.get("address2") || "", // Provide a default empty string if not provided
+    state: data.get("state"),
+    city: data.get("city"),
+    pincode: data.get("pincode"),
+  };
+  const validatedFormData = CreateAddress.safeParse(formData);
+
+  if (!validatedFormData.success) {
+    return {
+      errors: validatedFormData.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Create Category.",
+    };
+  }
+
+  const {
+    name,
+    address,
+    address2,
+    state: st,
+    city,
+    pincode,
+  } = validatedFormData.data;
+
+  try {
+    await prisma.address.create({
+      data: {
+        name,
+        userId: session.user.id,
+        address,
+        address2,
+        state: st,
+        city,
+        pincode,
+      },
+    });
+  } catch (e) {
+    console.log(e);
+    return { message: "Database error" };
+  }
+
+  redirect("/checkout/payment/");
 }
