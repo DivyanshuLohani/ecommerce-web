@@ -38,8 +38,6 @@ export default function LoginForm({ className, ...props }: UserAuthFormProps) {
       email: data.email,
       password: data.password,
       redirect: false,
-      // TODO: Change
-      callbackUrl: "/account/profile/",
     });
 
     setIsLoading(false);
@@ -58,7 +56,7 @@ export default function LoginForm({ className, ...props }: UserAuthFormProps) {
         variant: "destructive",
       });
     }
-    router.replace(signInResult.url ?? "");
+    router.replace("/");
     return toast({
       title: "Login Successful",
     });

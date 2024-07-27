@@ -29,12 +29,29 @@ import {
 import { User } from "@/components/admin/user";
 import { NavItem } from "@/components/Navbar/AdminNavLink";
 import { SearchInput } from "@/components/admin/search";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { toast } from "@/components/ui/use-toast";
+import { redirect } from "next/navigation";
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession(authOptions);
+  // console.log(session?.user);
+  if (!session) {
+    // toast({ title: "Please login", description: "Login to continue" });
+    return redirect("/login");
+  }
+  if (!session.user.isAdmin) {
+    // toast({
+    //   title: "Permission Denied",
+    //   description: "You cannot access that content",
+    // });
+    redirect("/");
+  }
   return (
     <TooltipProvider>
       <main className="flex min-h-screen w-full flex-col bg-muted/40">

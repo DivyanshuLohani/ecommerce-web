@@ -2,7 +2,7 @@ import "next-auth";
 import { User as U } from "@prisma/client";
 
 declare module "next-auth" {
-  interface User {
+  interface User extends U {
     id: number;
     name: string;
     email: string;
@@ -15,5 +15,7 @@ declare module "next-auth" {
 }
 
 declare module "next-auth/jwt" {
-  interface JWT extends User {}
+  interface JWT {
+    user: User;
+  }
 }
