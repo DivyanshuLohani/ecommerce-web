@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
@@ -16,6 +16,8 @@ import { toast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import axios, { AxiosError } from "axios";
 import { APIError } from "@/types/ApiResonse";
+import { useCart } from "@/context/CartProvider";
+import { updateCart } from "@/lib/cart";
 // import { Icons } from "@/components/icons";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -34,16 +36,22 @@ export default function RegisterForm({
     resolver: zodResolver(userRegisterSchema),
   });
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const router = useRouter();
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
     try {
-      const response = await axios.post("/api/register", data, {
+      await axios.post("/api/register", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(response);
+      await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+      });
+
+      router.replace("/");
       return toast({
         title: "User Registered",
         description: "Please wait while we redirect you",

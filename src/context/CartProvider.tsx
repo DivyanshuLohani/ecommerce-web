@@ -7,7 +7,7 @@ import React, {
   useEffect,
 } from "react";
 import type { Product } from "@prisma/client";
-import useLocalStorage from "@/hooks/useLocalstorage";
+import { CartItem } from "@/lib/cart";
 
 interface CartContextState {
   products: { product: Product; quantity: number }[];
@@ -21,12 +21,15 @@ interface CartContextState {
 
 const CartContext = createContext<CartContextState | null>(null);
 
-const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [localStore, setLocalStore] = useLocalStorage<
-    { product: Product; quantity: number }[]
-  >("cart", []);
-  const [cart, setCart] =
-    useState<{ product: Product; quantity: number }[]>(localStore);
+const CartProvider: React.FC<{
+  children: ReactNode;
+  cartData?: CartItem[];
+  addProductToCart?: any;
+  removeProductFromCart?: any;
+}> = ({ children, cartData, addProductToCart, removeProductFromCart }) => {
+  const [cart, setCart] = useState<{ product: Product; quantity: number }[]>(
+    cartData ?? []
+  );
   const [cartOpen, setCartOpen] = useState(false);
   const [cartTotal, setCartTotal] = useState(0);
 
@@ -34,12 +37,15 @@ const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     let total = 0;
     cart.forEach((crr) => (total += crr.product.price * crr.quantity));
     setCartTotal(total);
-    setLocalStore(cart);
-  }, [cart, setLocalStore]);
+
+    // Weird bug starts to make infinite requests to the server
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cart]);
 
   const addProduct = (product: Product, qty: number) => {
     setCart((prevCart) => {
       const productExists = prevCart.find((p) => p.product.id === product.id);
+      addProductToCart(product, qty);
       setCartOpen(true);
       if (productExists) {
         return prevCart.map((p) => {
@@ -56,6 +62,7 @@ const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const removeProduct = (id: number, qty: number) => {
     setCart((prevCart) => {
       const productExists = prevCart.find((p) => p.product.id === id);
+      removeProductFromCart(id, qty);
       if (productExists) {
         // If the quantity to remove is less than the current quantity
         if (productExists.quantity > qty) {
