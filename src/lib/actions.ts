@@ -4,13 +4,14 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { CreateProduct, EditProduct } from "./validations/product";
 import { prisma } from "./prisma";
-import { ProductStatus } from "@prisma/client";
+import { Address, ProductStatus } from "@prisma/client";
 import { v2 as cloudinary } from "cloudinary";
 import { CategoryFormState, CreateCategory } from "./validations/category";
 import { slugify } from "./utils";
 import { AddressState, CreateAddress } from "./validations/address";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./auth";
+import { cookies } from "next/headers";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -190,8 +191,10 @@ export async function createCategory(state: CategoryFormState, data: FormData) {
 }
 
 export async function addAddress(state: AddressState, data: FormData) {
-  const session = await getServerSession(authOptions);
-  if (!session) return { message: "Error user not logged in", errors: {} };
+  const existingAddress = await getAddressFromCookie();
+  if (existingAddress) {
+    redirect("/checkout/payment/");
+  }
   const formData = {
     name: data.get("name"),
     address: data.get("address"),
@@ -218,11 +221,13 @@ export async function addAddress(state: AddressState, data: FormData) {
     pincode,
   } = validatedFormData.data;
 
+  const session = await getServerSession(authOptions);
+
   try {
-    await prisma.address.create({
+    const addressObj = await prisma.address.create({
       data: {
         name,
-        userId: session.user.id,
+        userId: session?.user.id,
         address,
         address2,
         state: st,
@@ -230,10 +235,26 @@ export async function addAddress(state: AddressState, data: FormData) {
         pincode,
       },
     });
+    // For payment we store the address in the cookies once its done we clear the cookies
+    cookies().set("address", JSON.stringify(addressObj), {
+      expires: 1000 * 60 * 60 * 24 * 15,
+    });
   } catch (e) {
     console.log(e);
     return { message: "Database error" };
   }
 
   redirect("/checkout/payment/");
+}
+
+export async function getAddressFromCookie() {
+  const data = cookies().get("address");
+  if (!data) return null;
+  try {
+    const address: Address = JSON.parse(data.value);
+    if (!address.id) return null;
+    return address;
+  } catch {
+    return null;
+  }
 }

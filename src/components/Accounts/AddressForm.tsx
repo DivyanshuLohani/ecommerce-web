@@ -13,20 +13,22 @@ import {
 } from "../ui/select";
 import { useFormState } from "react-dom";
 import { addAddress } from "@/lib/actions";
+import type { Address } from "@prisma/client";
 
-export default function AddressForm() {
+export default function AddressForm({ address }: { address: Address | null }) {
   const session = useSession();
   const [state, dispatch] = useFormState(addAddress, {
     message: "",
     errors: {},
   });
+
   return (
     <form className="py-2 w-full" action={dispatch}>
       <div className="input my-4">
         <Label htmlFor="name">Billing Name</Label>
         <Input
           id="name"
-          defaultValue={session?.data?.user.name}
+          defaultValue={session?.data?.user.name || address?.name}
           aria-describedby="name-error"
           name="name"
         />
@@ -38,7 +40,12 @@ export default function AddressForm() {
       </div>
       <div className="input my-2">
         <Label htmlFor="address1">Address Line 1</Label>
-        <Input id="address1" aria-describedby="address-error" name="address" />
+        <Input
+          id="address1"
+          aria-describedby="address-error"
+          name="address"
+          defaultValue={address?.address}
+        />
         {state.errors?.address && (
           <span id="address-error" className="text-red-600">
             {state.errors.address[0]}
@@ -51,6 +58,7 @@ export default function AddressForm() {
           id="address2"
           aria-describedby="address-2-error"
           name="address2"
+          defaultValue={address?.address2 || ""}
         />
         {state.errors?.address2 && (
           <span id="address-2-error" className="text-red-600">
@@ -60,7 +68,12 @@ export default function AddressForm() {
       </div>
       <div className="input my-2">
         <Label htmlFor="city">City</Label>
-        <Input id="city" aria-describedby="city-error" name="city" />
+        <Input
+          id="city"
+          aria-describedby="city-error"
+          name="city"
+          defaultValue={address?.city}
+        />
         {state.errors?.city && (
           <span id="city-error" className="text-red-600">
             {state.errors.city[0]}
@@ -69,7 +82,7 @@ export default function AddressForm() {
       </div>
       <div className="input my-2">
         <Label htmlFor="state">State</Label>
-        <Select name="state">
+        <Select name="state" defaultValue={address?.state}>
           <SelectTrigger>
             <SelectValue placeholder="Select a state" />
           </SelectTrigger>
@@ -120,7 +133,12 @@ export default function AddressForm() {
       </div>
       <div className="input my-2">
         <Label htmlFor="pin">Pincode</Label>
-        <Input id="pin" aria-describedby="pincode-error" name="pincode" />
+        <Input
+          id="pin"
+          aria-describedby="pincode-error"
+          name="pincode"
+          defaultValue={address?.pincode}
+        />
         {state.errors?.pincode && (
           <span id="pincode-error" className="text-red-600">
             {state.errors.pincode[0]}
@@ -128,7 +146,7 @@ export default function AddressForm() {
         )}
       </div>
 
-      <Button>Proceed to payment</Button>
+      <Button className="mt-5">Proceed to payment</Button>
     </form>
   );
 }
