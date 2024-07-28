@@ -237,7 +237,9 @@ export async function addAddress(state: AddressState, data: FormData) {
     });
     // For payment we store the address in the cookies once its done we clear the cookies
     cookies().set("address", JSON.stringify(addressObj), {
-      expires: 1000 * 60 * 60 * 24 * 15,
+      expires: new Date().getTime() + 1000 * 60 * 60 * 24 * 15,
+      secure: true,
+      sameSite: true,
     });
   } catch (e) {
     console.log(e);
