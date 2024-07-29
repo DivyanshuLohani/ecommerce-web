@@ -197,6 +197,8 @@ export async function addAddress(state: AddressState, data: FormData) {
   }
   const formData = {
     name: data.get("name"),
+    phoneNumber: data.get("phone"),
+    email: data.get("email"),
     address: data.get("address"),
     address2: data.get("address2") || "", // Provide a default empty string if not provided
     state: data.get("state"),
@@ -214,6 +216,8 @@ export async function addAddress(state: AddressState, data: FormData) {
 
   const {
     name,
+    phoneNumber,
+    email,
     address,
     address2,
     state: st,
@@ -227,6 +231,8 @@ export async function addAddress(state: AddressState, data: FormData) {
     const addressObj = await prisma.address.create({
       data: {
         name,
+        phoneNumber,
+        email,
         userId: session?.user.id,
         address,
         address2,

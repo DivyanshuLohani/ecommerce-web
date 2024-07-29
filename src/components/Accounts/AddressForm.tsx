@@ -38,6 +38,34 @@ export default function AddressForm({ address }: { address: Address | null }) {
           </span>
         )}
       </div>
+      <div className="input my-4">
+        <Label htmlFor="phone">Phone Number</Label>
+        <Input
+          id="phone"
+          defaultValue={address?.phoneNumber}
+          aria-describedby="phone-error"
+          name="phone"
+        />
+        {state.errors?.phoneNumber && (
+          <span id="phone-error" className="text-red-600">
+            {state.errors.phoneNumber[0]}
+          </span>
+        )}
+      </div>
+      <div className="input my-4">
+        <Label htmlFor="email">Email</Label>
+        <Input
+          id="email"
+          defaultValue={session?.data?.user.email || address?.email}
+          aria-describedby="email-error"
+          name="email"
+        />
+        {state.errors?.email && (
+          <span id="phone-error" className="text-red-600">
+            {state.errors.email[0]}
+          </span>
+        )}
+      </div>
       <div className="input my-2">
         <Label htmlFor="address1">Address Line 1</Label>
         <Input

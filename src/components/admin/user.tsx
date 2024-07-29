@@ -1,20 +1,15 @@
+"use client";
 import { Button } from "@/components/ui/button";
-// import { auth, signOut } from "@/lib/auth";
 import Image from "next/image";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Link from "next/link";
+import { signOut } from "next-auth/react";
 
-export async function User() {
-  // let session = await auth();
-  // let user = session?.user;
-
+export function User() {
   return (
     <div className="justify-self-end">
       <DropdownMenu>
@@ -34,21 +29,15 @@ export async function User() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          {/* <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
-        <DropdownMenuSeparator /> */}
-
           <DropdownMenuItem>
-            <form
-              action={async () => {
-                "use server";
-                // await signOut();
+            <button
+              onClick={() => {
+                signOut();
               }}
+              type="submit"
             >
-              <button type="submit">Sign Out</button>
-            </form>
+              Sign Out
+            </button>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

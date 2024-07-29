@@ -4,6 +4,8 @@ const addressSchema = z.object({
   id: z.number().int().positive(), // Assuming id is positive integers
   userId: z.number().int().positive(), // Same for userId
   name: z.string().min(1, "Name is required").max(255),
+  phoneNumber: z.string().min(1, "Phone number is required").max(15),
+  email: z.string().email("Invalid Email"),
   address: z.string().min(1, "Address is required").max(500),
   address2: z.string().max(500).optional(), // Optional, can be empty
   state: z.string().min(1, "State is required").max(100),
@@ -24,6 +26,8 @@ export interface AddressState {
   message?: string;
   errors?: {
     name?: string[] | undefined;
+    phoneNumber?: string[] | undefined;
+    email?: string[] | undefined;
     address?: string[] | undefined;
     address2?: string[] | undefined;
     state?: string[] | undefined;
