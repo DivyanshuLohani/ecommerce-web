@@ -7,7 +7,7 @@ export default function page() {
       <h1 className="text-2xl font-semibold">Addresses</h1>
       <h4 className="text-sm">Add/Remove Addresses</h4>
 
-      <AddressForm />
+      {/* <AddressForm /> */}
     </div>
   );
 }
