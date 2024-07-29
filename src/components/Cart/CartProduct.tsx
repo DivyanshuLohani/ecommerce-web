@@ -26,11 +26,9 @@ export default function CartProduct({
       <div>
         <span className="text-xl font-semibold">{product.product.name}</span>
         <div className="flex gap-5 items-center">
-          <h3>
-            Rs. {formatCurrency(product.product.price * product.quantity)}
-          </h3>
+          <h3>₹ {formatCurrency(product.product.price * product.quantity)}</h3>
           <div className="flex flex-col">
-            <span className=" line-through">Rs. {formatCurrency(1999)}</span>
+            <span className=" line-through">₹ {formatCurrency(1999)}</span>
           </div>
         </div>
         <div className="flex items-center justify-between">

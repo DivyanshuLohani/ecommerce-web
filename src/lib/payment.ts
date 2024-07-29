@@ -1,5 +1,5 @@
 "use server";
-import { getCart } from "./cart";
+import { getCart, updateCart } from "./cart";
 import { OrderProduct } from "@prisma/client";
 import { prisma } from "./prisma";
 import { getServerSession } from "next-auth";
@@ -112,21 +112,12 @@ export async function paymentFailure(id: string, code: string) {
     },
   });
 
-  await prisma.payment.delete({
-    where: {
-      paymentId: id,
-    },
-  });
-
-  await prisma.orderProduct.deleteMany({
-    where: {
-      orderId: payment.orderId,
-    },
-  });
-
-  await prisma.order.delete({
+  await prisma.order.update({
     where: {
       id: payment.orderId,
+    },
+    data: {
+      status: "PENDING",
     },
   });
 }
@@ -165,4 +156,34 @@ export async function paymentSuccess(
       status: "ACCEPTED",
     },
   });
+}
+
+export async function getOrder(id: string) {
+  const payment = await prisma.payment.findUnique({
+    where: {
+      paymentId: id,
+    },
+  });
+  if (!payment) return null;
+  const order = await prisma.order.findUnique({
+    where: {
+      id: payment.orderId,
+    },
+    include: {
+      products: true,
+      address: true,
+    },
+  });
+  if (!order) return null;
+  return order;
+}
+
+export async function getOrderProducts(id: number) {
+  const items = await prisma.orderProduct.findMany({
+    where: { orderId: id },
+    include: {
+      product: true,
+    },
+  });
+  return items;
 }

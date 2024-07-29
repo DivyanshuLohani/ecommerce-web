@@ -1,7 +1,12 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar/Navbar";
 import CartProvider from "@/context/CartProvider";
-import { getCart, addProductToCart, removeProductFromCart } from "@/lib/cart";
+import {
+  getCart,
+  addProductToCart,
+  removeProductFromCart,
+  clearCart,
+} from "@/lib/cart";
 import React from "react";
 
 export default async function Layout({
@@ -15,6 +20,7 @@ export default async function Layout({
       cartData={cartData}
       addProductToCart={addProductToCart}
       removeProductFromCart={removeProductFromCart}
+      clearCart={clearCart}
     >
       <Navbar />
       <main className="w-full">{children}</main>

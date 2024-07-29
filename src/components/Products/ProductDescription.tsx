@@ -10,10 +10,10 @@ export function ProductDescription({ product }: { product: Product }) {
       <div className="mb-6 flex flex-col border-b pb-6 dark:border-neutral-700">
         <h1 className="mb-2 text-5xl font-medium">{product.name}</h1>
         <div className="flex gap-5 items-center">
-          <h3 className="text-2xl">Rs. {formatCurrency(product.price)}</h3>
+          <h3 className="text-2xl">₹ {formatCurrency(product.price)}</h3>
           <div className="flex flex-col">
-            <span className=" line-through">Rs. {formatCurrency(1999)}</span>
-            <span>You save Rs. {formatCurrency(1999)}</span>
+            <span className=" line-through">₹ {formatCurrency(1999)}</span>
+            <span>You save ₹ {formatCurrency(1999)}</span>
           </div>
         </div>
       </div>

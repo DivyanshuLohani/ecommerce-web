@@ -247,3 +247,23 @@ export async function updateCart(d: CartItem[]) {
     data,
   });
 }
+
+export async function clearCart() {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    const token = getCartToken();
+    cookies().delete("cart");
+    await prisma.anonymousCartItem.deleteMany({
+      where: {
+        token,
+      },
+    });
+    return;
+  }
+
+  await prisma.cartItem.deleteMany({
+    where: {
+      userId: session.user.id,
+    },
+  });
+}

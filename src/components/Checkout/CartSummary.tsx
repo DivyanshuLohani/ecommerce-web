@@ -17,14 +17,14 @@ const CartSummary = () => {
             className="flex justify-between"
             suppressHydrationWarning
           >
-            {item.product.name} - Rs. {formatCurrency(item.product.price)} x{" "}
+            {item.product.name} - ₹ {formatCurrency(item.product.price)} x{" "}
             {item.quantity}
           </li>
         ))}
       </ul>
       <div className="mt-6">
         <h3 className="text-lg font-bold">
-          Total: Rs. {formatCurrency(cartTotal)}
+          Total: ₹ {formatCurrency(cartTotal)}
         </h3>
       </div>
     </div>

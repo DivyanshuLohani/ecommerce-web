@@ -92,7 +92,7 @@ export default function AddressForm({ address }: { address: Address | null }) {
             <SelectItem value="AS">Assam</SelectItem>
             <SelectItem value="BR">Bihar</SelectItem>
             <SelectItem value="CT">Chhattisgarh</SelectItem>
-            <SelectItem value="GA">Gujarat</SelectItem>
+            <SelectItem value="GJ">Gujarat</SelectItem>
             <SelectItem value="HR">Haryana</SelectItem>
             <SelectItem value="HP">Himachal Pradesh</SelectItem>
             <SelectItem value="JK">Jammu and Kashmir</SelectItem>

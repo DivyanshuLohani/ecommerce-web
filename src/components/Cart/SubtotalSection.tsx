@@ -11,7 +11,7 @@ export default function SubtotalSection() {
   return (
     <div className="absolute bottom-0 flex p-5 flex-col border-t w-full">
       <h5 className="text-lg font-semibold">Subtotal</h5>
-      <span className="text-2xl">Rs. {formatCurrency(cartTotal)}</span>
+      <span className="text-2xl">₹ {formatCurrency(cartTotal)}</span>
       <div className="flex gap-2 mt-2 w-full">
         <Button
           variant={"outline"}

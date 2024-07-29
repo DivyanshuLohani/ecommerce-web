@@ -25,11 +25,11 @@ export default function CartPageProducts() {
               <span className="text-lg">{p.product.name}</span>
             </TableCell>
             <TableCell className="">
-              Rs. {formatCurrency(p.product.price)}
+              ₹ {formatCurrency(p.product.price)}
             </TableCell>
             <TableCell className="">{p.quantity}</TableCell>
             <TableCell className="font-semibold">
-              Rs. {formatCurrency(p.quantity * p.product.price)}
+              ₹ {formatCurrency(p.quantity * p.product.price)}
             </TableCell>
             <TableCell>
               <Button onClick={() => removeProduct(p.product.id, p.quantity)}>

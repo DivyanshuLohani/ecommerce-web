@@ -29,7 +29,7 @@ export default function ProductCard({ product }: { product: Product }) {
         </Link>
         <br />
         <div className="price">
-          <span className="">Rs. {formatCurrency(product.price)}</span>
+          <span className="">₹ {formatCurrency(product.price)}</span>
         </div>
       </CardContent>
       <CardFooter>

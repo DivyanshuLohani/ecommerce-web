@@ -26,9 +26,16 @@ const CartProvider: React.FC<{
   cartData?: CartItem[];
   addProductToCart?: any;
   removeProductFromCart?: any;
-}> = ({ children, cartData, addProductToCart, removeProductFromCart }) => {
+  clearCart?: any;
+}> = ({
+  children,
+  cartData,
+  addProductToCart,
+  removeProductFromCart,
+  clearCart,
+}) => {
   const [cart, setCart] = useState<{ product: Product; quantity: number }[]>(
-    cartData ?? []
+    () => cartData ?? []
   );
   const [cartOpen, setCartOpen] = useState(false);
   const [cartTotal, setCartTotal] = useState(0);
@@ -43,10 +50,10 @@ const CartProvider: React.FC<{
   }, [cart]);
 
   const addProduct = (product: Product, qty: number) => {
+    addProductToCart(product, qty);
+    setCartOpen(true);
     setCart((prevCart) => {
       const productExists = prevCart.find((p) => p.product.id === product.id);
-      addProductToCart(product, qty);
-      setCartOpen(true);
       if (productExists) {
         return prevCart.map((p) => {
           return p.product.id === product.id
@@ -60,9 +67,9 @@ const CartProvider: React.FC<{
   };
 
   const removeProduct = (id: number, qty: number) => {
+    removeProductFromCart(id, qty);
     setCart((prevCart) => {
       const productExists = prevCart.find((p) => p.product.id === id);
-      removeProductFromCart(id, qty);
       if (productExists) {
         // If the quantity to remove is less than the current quantity
         if (productExists.quantity > qty) {
@@ -79,6 +86,7 @@ const CartProvider: React.FC<{
 
   const clear = () => {
     setCart([]);
+    clearCart();
   };
 
   return (

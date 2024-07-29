@@ -1,8 +1,9 @@
 "use client";
+import { useCart } from "@/context/CartProvider";
 import { paymentFailure, paymentSuccess } from "@/lib/payment";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useRazorpay from "react-razorpay";
 
 declare global {
@@ -14,6 +15,8 @@ declare global {
 export default function Payment({ paymentDetails }: { paymentDetails: any }) {
   const [Razorpay] = useRazorpay();
   const router = useRouter();
+  const { clear } = useCart();
+  const [razorPayopen, setRzpOpen] = useState(false);
   const options = {
     ...paymentDetails,
     handler: async function (response: any) {
@@ -22,30 +25,34 @@ export default function Payment({ paymentDetails }: { paymentDetails: any }) {
         response.razorpay_payment_id,
         response.razorpay_signature
       );
-
+      clear();
       router.replace(`/orders/${paymentDetails.order_id}`);
     },
     modal: {
       escape: false,
       ondismiss: function () {
-        router.replace("/checkout");
+        router.replace("/checkout/payment/");
+        paymentFailure(paymentDetails.order_id, "PAYMENT_CANCELED");
       },
     },
   };
-  if (window.Razorpay) {
-    const rzp = new Razorpay(options);
+  useEffect(() => {
+    if (window.Razorpay && !razorPayopen) {
+      const rzp = new Razorpay(options);
 
-    rzp.on("payment.failed", async (response: any) => {
-      alert(response.error.description);
-      await paymentFailure(
-        response.error.metadata.order_id,
-        response.error.code
-      );
-      router.replace("/checkout");
-    });
+      rzp.on("payment.failed", async (response: any) => {
+        alert(response.error.description);
+        await paymentFailure(
+          response.error.metadata.order_id,
+          response.error.code
+        );
+        // router.replace("/checkout");
+      });
 
-    rzp.open();
-  }
+      rzp.open();
+      setRzpOpen(true);
+    }
+  }, [Razorpay, options, router]);
 
   return (
     <>
