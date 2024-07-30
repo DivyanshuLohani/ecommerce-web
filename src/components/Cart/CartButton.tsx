@@ -33,7 +33,7 @@ export default function CartButton() {
           </span>
         </Button>
       </SheetTrigger>
-      <SheetContent className="w-full h-full md:w-4/5 px-0">
+      <SheetContent className="w-full h-full md:w-4/5 px-0 overflow-y-auto">
         <SheetHeader className="px-5">
           <SheetTitle>Shoping Cart ({products.length})</SheetTitle>
           <SheetDescription className="sr-only">Cart</SheetDescription>

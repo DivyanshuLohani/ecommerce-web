@@ -14,24 +14,25 @@ export default function CartProduct({
 }) {
   const { removeProduct, addProduct } = useCart();
   return (
-    <div className="flex justify-evenly">
+    <div className="flex px-5 gap-5">
       <Image
         width={200}
         height={200}
-        sizes="(min-width: 200px)"
         className="w-1/3 h-full object-contain"
         src={product.product.imageUrl ?? ""}
         alt="product image"
       />
       <div>
-        <span className="text-xl font-semibold">{product.product.name}</span>
+        <span className="text-lg font-semibold">
+          {product.product.name.slice(0, 20)}...
+        </span>
         <div className="flex gap-5 items-center">
           <h3>₹ {formatCurrency(product.product.price * product.quantity)}</h3>
           <div className="flex flex-col">
             <span className=" line-through">₹ {formatCurrency(1999)}</span>
           </div>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
           <Button onClick={() => removeProduct(product.product.id, 1)}>
             -
           </Button>

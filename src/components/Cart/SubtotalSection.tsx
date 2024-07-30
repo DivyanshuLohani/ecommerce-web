@@ -9,7 +9,7 @@ export default function SubtotalSection() {
   const { cartTotal, setCartOpen } = useCart();
   if (cartTotal <= 0) return null;
   return (
-    <div className="absolute bottom-0 flex p-5 flex-col border-t w-full">
+    <div className="flex p-5 flex-col border-t w-full">
       <h5 className="text-lg font-semibold">Subtotal</h5>
       <span className="text-2xl">₹ {formatCurrency(cartTotal)}</span>
       <div className="flex gap-2 mt-2 w-full">
