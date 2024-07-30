@@ -42,6 +42,7 @@ export async function createProduct(
     price: parseFloat(formData.get("price") as string),
     stock: parseInt(formData.get("stock") as string, 10),
     imageUrl: formData.get("imageUrl"),
+    featured: formData.get("featured") === "on",
     categoryId: parseInt(formData.get("categoryId") as string, 10),
     status: "ACTIVE",
   });
@@ -54,7 +55,7 @@ export async function createProduct(
     };
   }
 
-  let { name, description, price, stock, imageUrl, categoryId, status } =
+  let { name, description, price, stock, imageUrl, categoryId, featured } =
     validatedFields.data;
   price *= 100;
 
@@ -72,6 +73,7 @@ export async function createProduct(
         stock,
         imageUrl,
         categoryId,
+        featured,
         slug: slugify(name),
         status: ProductStatus.ACTIVE,
       },
@@ -98,6 +100,7 @@ export async function editProduct(
     price: parseFloat(formData.get("price") as string),
     stock: parseInt(formData.get("stock") as string, 10),
     imageUrl: formData.get("imageUrl"),
+    featured: formData.get("featured") === "on",
     categoryId: parseInt(formData.get("categoryId") as string, 10),
     status: "ACTIVE",
   });
@@ -113,7 +116,7 @@ export async function editProduct(
     where: { id: validatedFields.data.id },
   });
 
-  let { id, name, description, price, stock, imageUrl, categoryId, status } =
+  let { id, name, description, price, stock, imageUrl, categoryId, featured } =
     validatedFields.data;
 
   price *= 100;
@@ -137,6 +140,7 @@ export async function editProduct(
         categoryId,
         slug: slugify(name),
         status: ProductStatus.ACTIVE,
+        featured,
       },
     });
   } catch (error) {

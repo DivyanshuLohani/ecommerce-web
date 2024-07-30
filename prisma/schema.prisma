@@ -36,6 +36,7 @@ model Product {
   updatedAt         DateTime            @updatedAt
   images            ProductImages[]
   CartItem          CartItem[]
+  featured  Boolean  @default(false)
   AnonymousCartItem AnonymousCartItem[]
 }
 

@@ -10,6 +10,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { useState } from "react";
+import { Switch } from "../ui/switch";
 
 export default function Form({ categories }: { categories: Category[] }) {
   const initialState = { message: "", errors: {} };
@@ -235,6 +236,23 @@ export default function Form({ categories }: { categories: Category[] }) {
             </div>
           ) : null}
         </div>
+        <div className="mb-4 flex gap-5">
+          <Switch name="featured" id="featured" />
+          <Label htmlFor="featured" className="mb-2 block text-sm font-medium">
+            Featured
+          </Label>
+        </div>
+        {state.errors?.featured ? (
+          <div
+            id="price-error"
+            aria-live="polite"
+            className="mt-2 text-sm text-red-500"
+          >
+            {state.errors.featured.map((error: string) => (
+              <p key={error}>{error}</p>
+            ))}
+          </div>
+        ) : null}
 
         {state.message ? (
           <div

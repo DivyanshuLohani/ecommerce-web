@@ -56,3 +56,11 @@ export async function getProduct(id: number) {
     },
   });
 }
+
+export async function getFeaturedProducts() {
+  return await prisma.product.findMany({
+    where: {
+      featured: true,
+    },
+  });
+}

@@ -9,6 +9,7 @@ const ProductSchema = z.object({
   price: z.number().positive("Price must be a positive number"),
   stock: z.number().int().nonnegative("Stock must be a non-negative integer"),
   imageUrl: z.string().url().optional(),
+  featured: z.boolean().optional().default(false),
   categoryId: z
     .number()
     .int()
