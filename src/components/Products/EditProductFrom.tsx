@@ -291,7 +291,7 @@ export default function ProductEditForm({
         >
           Cancel
         </Link>
-        <Button type="submit">Edit</Button>
+        <Button type="submit">Save</Button>
       </div>
     </form>
   );
