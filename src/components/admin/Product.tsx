@@ -53,11 +53,13 @@ export function Product({ product }: { product: IProduct }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuItem>
-              {/* <form action={deleteProduct}> */}
-              <button type="submit">Delete</button>
-              {/* </form> */}
+              <Link href={`/admin/products/${product.id}/`}>Edit</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/admin/products/${product.id}/images/`}>
+                Add Images
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -32,10 +32,27 @@ export async function fetchProduct(id: number) {
     where: { id },
   });
 }
+
+export async function fetchProductWithSlug(slug: string) {
+  return await prisma.product.findFirst({
+    where: { slug },
+    include: {
+      images: true,
+    },
+  });
+}
 export async function fetchProductImages(id: number) {
   return await prisma.productImages.findMany({
     where: {
       productId: id,
+    },
+  });
+}
+
+export async function getProduct(id: number) {
+  return await prisma.product.findUnique({
+    where: {
+      id,
     },
   });
 }

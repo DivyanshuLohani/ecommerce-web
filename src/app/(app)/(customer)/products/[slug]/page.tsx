@@ -8,7 +8,11 @@ import { Gallery } from "@/components/Gallery";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
-import { fetchProduct, fetchProductImages } from "@/lib/data";
+import {
+  fetchProduct,
+  fetchProductImages,
+  fetchProductWithSlug,
+} from "@/lib/data";
 import { ProductDescription } from "@/components/Products/ProductDescription";
 
 export async function generateMetadata({
@@ -45,10 +49,9 @@ export async function generateMetadata({
 export default async function ProductPage({
   params,
 }: {
-  params: { handle: string };
+  params: { slug: string };
 }) {
-  const product = await fetchProduct(3);
-  const productImages = await fetchProductImages(3);
+  const product = await fetchProductWithSlug(params.slug);
 
   if (!product) return notFound();
 
@@ -68,7 +71,7 @@ export default async function ProductPage({
                     src: product.imageUrl ?? "",
                     altText: "Featured Image",
                   },
-                  ...productImages.map((e) => ({
+                  ...product.images.map((e) => ({
                     src: e.imageUrl,
                     altText: "Product Image",
                   })),
