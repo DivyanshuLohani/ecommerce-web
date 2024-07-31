@@ -87,3 +87,17 @@ export async function getOrders(
     return { orders: [], totalOrders: 0 };
   }
 }
+
+export async function getOrder(id: number) {
+  const order = await prisma.order.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      payment: true,
+      address: true,
+      products: true,
+    },
+  });
+  return order;
+}
