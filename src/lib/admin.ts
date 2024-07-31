@@ -3,6 +3,9 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "./prisma";
 import { v2 as c } from "cloudinary";
 import { redirect } from "next/navigation";
+import { OrderStatus } from "@prisma/client";
+
+const ITEMS_PER_PAGE = 10;
 
 c.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -52,4 +55,35 @@ export async function createProductImage(
 
   revalidatePath(`/admin/products/${id}/images/`);
   redirect(`/admin/products/${id}`);
+}
+
+export async function getOrders(
+  currentPage: number,
+  status: OrderStatus = "ACCEPTED",
+  itemsPerPage: number = ITEMS_PER_PAGE
+) {
+  const offset = (currentPage - 1) * itemsPerPage;
+  try {
+    const [totalOrders, orders] = await prisma.$transaction([
+      prisma.order.count({ where: { status } }),
+      prisma.order.findMany({
+        where: {
+          status,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        include: {
+          address: true,
+        },
+        skip: offset,
+        take: itemsPerPage,
+      }),
+    ]);
+
+    return { orders, totalOrders };
+  } catch (e) {
+    console.log("Error fetching Orders", e);
+    return { orders: [], totalOrders: 0 };
+  }
 }
