@@ -16,9 +16,12 @@ export default async function OrdersPage({
 }: {
   searchParams: { page: string };
 }) {
-  const { orders, totalOrders } = await getOrders(
-    parseInt(searchParams.page ?? "1")
-  );
+  const { orders: activeOrders, totalOrders: totalActiveOrders } =
+    await getOrders(parseInt(searchParams.page ?? "1"));
+  const { orders: shippedOrders, totalOrders: totalshipppedOrders } =
+    await getOrders(parseInt(searchParams.page ?? "1"), "SHIPPED");
+  const { orders: deliveredOrders, totalOrders: totalDeliveredOrders } =
+    await getOrders(parseInt(searchParams.page ?? "1"), "DELIVERED");
 
   return (
     <Tabs defaultValue="accepted">
@@ -26,7 +29,7 @@ export default async function OrdersPage({
         <TabsList>
           <TabsTrigger value="accepted">Incoming</TabsTrigger>
           <TabsTrigger value="shipped">Shipped</TabsTrigger>
-          <TabsTrigger value="dilevered">Dilevered</TabsTrigger>
+          <TabsTrigger value="delivered">Delivered</TabsTrigger>
           <TabsTrigger value="canceled" className="hidden sm:flex">
             Canceled
           </TabsTrigger>
@@ -47,7 +50,22 @@ export default async function OrdersPage({
         </CardHeader>
         <CardContent>
           <TabsContent value="accepted">
-            <OrdersTable totalOrders={totalOrders} orders={orders} />
+            <OrdersTable
+              totalOrders={totalActiveOrders}
+              orders={activeOrders}
+            />
+          </TabsContent>
+          <TabsContent value="shipped">
+            <OrdersTable
+              totalOrders={totalshipppedOrders}
+              orders={shippedOrders}
+            />
+          </TabsContent>
+          <TabsContent value="delivered">
+            <OrdersTable
+              totalOrders={totalDeliveredOrders}
+              orders={deliveredOrders}
+            />
           </TabsContent>
         </CardContent>
       </Card>
