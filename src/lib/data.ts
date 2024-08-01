@@ -6,20 +6,37 @@ export async function fetchCategories() {
   return await prisma.category.findMany();
 }
 
-export async function fetchProducts(currentPage: number) {
-  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+export async function fetchProducts(
+  currentPage: number,
+  query: string = "",
+  perPage: number = ITEMS_PER_PAGE
+) {
+  const offset = (currentPage - 1) * perPage;
+
   try {
     const [totalProducts, products] = await prisma.$transaction([
-      prisma.product.count(),
+      prisma.product.count({
+        where: {
+          OR: [
+            { name: { contains: query, mode: "insensitive" } },
+            { description: { contains: query, mode: "insensitive" } },
+          ],
+        },
+      }),
       prisma.product.findMany({
+        where: {
+          OR: [
+            { name: { contains: query, mode: "insensitive" } },
+            { description: { contains: query, mode: "insensitive" } },
+          ],
+        },
         orderBy: {
           createdAt: "asc",
         },
         skip: offset,
-        take: ITEMS_PER_PAGE,
+        take: perPage,
       }),
     ]);
-
     return { products, totalProducts };
   } catch (e) {
     console.log("Error fetching products", e);
