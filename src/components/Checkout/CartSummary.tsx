@@ -17,8 +17,13 @@ const CartSummary = () => {
             className="flex justify-between"
             suppressHydrationWarning
           >
-            {item.product.name} - ₹ {formatCurrency(item.product.price)} x{" "}
-            {item.quantity}
+            {item.product.name} - ₹{" "}
+            {formatCurrency(
+              item.product.discountedPrice != 0
+                ? item.product.discountedPrice
+                : item.product.price
+            )}{" "}
+            x {item.quantity}
           </li>
         ))}
       </ul>

@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@prisma/client";
-import { formatCurrency } from "@/lib/utils";
+import { discountPercent, formatCurrency } from "@/lib/utils";
 import AddToCart from "../Cart/AddToCart";
 
 export default function ProductCard({ product }: { product: Product }) {
@@ -28,8 +28,26 @@ export default function ProductCard({ product }: { product: Product }) {
           </div>
         </Link>
         <br />
-        <div className="price">
-          <span className="">₹ {formatCurrency(product.price)}</span>
+
+        <div className="flex gap-3 items-center">
+          <span className="text-lg">
+            ₹{" "}
+            {formatCurrency(
+              product.discountedPrice != 0
+                ? product.discountedPrice
+                : product.price
+            )}
+          </span>
+          {product.discountedPrice != 0 ? (
+            <span>
+              <span className="line-through">
+                ₹ {formatCurrency(product.price)}
+              </span>{" "}
+              <span className="text-red-500 text-xl font-bold">
+                {discountPercent(product.price, product.discountedPrice)}% off
+              </span>
+            </span>
+          ) : null}
         </div>
       </CardContent>
       <CardFooter>

@@ -50,10 +50,10 @@ export default function OrderItems({
                     />
                     <span className="hidden md:block">{e.product.name}</span>
                   </TableCell>
-                  <TableCell>₹ {formatCurrency(e.product.price)}</TableCell>
+                  <TableCell>₹ {formatCurrency(e.price)}</TableCell>
                   <TableCell>{e.quantity}</TableCell>
                   <TableCell className="text-left">
-                    ₹ {formatCurrency(e.product.price * e.quantity)}
+                    ₹ {formatCurrency(e.price * e.quantity)}
                   </TableCell>
                 </TableRow>
               );

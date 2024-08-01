@@ -1,7 +1,13 @@
 import React from "react";
 import ProductCard from "../Products/productCard";
 import { fetchProducts, getFeaturedProducts } from "@/lib/data";
-import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "../ui/carousel";
 
 export default async function BestSellers() {
   const products = await getFeaturedProducts();
@@ -19,6 +25,8 @@ export default async function BestSellers() {
             </CarouselItem>
           ))}
         </CarouselContent>
+        {/* <CarouselPrevious />
+        <CarouselNext /> */}
       </Carousel>
       {/* </div> */}
     </section>

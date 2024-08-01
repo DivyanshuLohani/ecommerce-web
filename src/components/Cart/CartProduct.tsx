@@ -27,10 +27,28 @@ export default function CartProduct({
           {product.product.name.slice(0, 20)}...
         </span>
         <div className="flex gap-5 items-center">
-          <h3>₹ {formatCurrency(product.product.price * product.quantity)}</h3>
-          <div className="flex flex-col">
-            <span className=" line-through">₹ {formatCurrency(1999)}</span>
-          </div>
+          <h3>
+            ₹
+            {formatCurrency(
+              (product.product.discountedPrice != 0
+                ? product.product.discountedPrice
+                : product.product.price) * product.quantity
+            )}
+          </h3>
+          {product.product.discountedPrice != 0 ? (
+            <div className="flex flex-col">
+              <span className=" line-through">
+                ₹ {formatCurrency(product.product.price * product.quantity)}
+              </span>
+              <span>
+                You save ₹
+                {formatCurrency(
+                  product.product.price * product.quantity -
+                    product.product.discountedPrice * product.quantity
+                )}
+              </span>
+            </div>
+          ) : null}
         </div>
         <div className="flex items-center gap-3">
           <Button onClick={() => removeProduct(product.product.id, 1)}>

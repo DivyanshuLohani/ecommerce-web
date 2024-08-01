@@ -24,7 +24,8 @@ model Product {
   id                Int                 @id @default(autoincrement())
   name              String
   description       String
-  price             Float
+  price             Int
+  discountedPrice   Int                 @default(0)
   stock             Int
   imageUrl          String?
   categoryId        Int
@@ -36,7 +37,7 @@ model Product {
   updatedAt         DateTime            @updatedAt
   images            ProductImages[]
   CartItem          CartItem[]
-  featured  Boolean  @default(false)
+  featured          Boolean             @default(false)
   AnonymousCartItem AnonymousCartItem[]
 }
 
@@ -69,6 +70,7 @@ model OrderProduct {
   productId Int
   product   Product  @relation(fields: [productId], references: [id])
   quantity  Int
+  price     Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

@@ -40,6 +40,9 @@ export async function createProduct(
     name: formData.get("name"),
     description: formData.get("description"),
     price: parseFloat(formData.get("price") as string),
+    discountedPrice: parseFloat(
+      (formData.get("discountedPrice") as string) ?? "0"
+    ),
     stock: parseInt(formData.get("stock") as string, 10),
     imageUrl: formData.get("imageUrl"),
     featured: formData.get("featured") === "on",
@@ -55,8 +58,16 @@ export async function createProduct(
     };
   }
 
-  let { name, description, price, stock, imageUrl, categoryId, featured } =
-    validatedFields.data;
+  let {
+    name,
+    description,
+    price,
+    stock,
+    imageUrl,
+    categoryId,
+    featured,
+    discountedPrice,
+  } = validatedFields.data;
   price *= 100;
 
   if (imageUrl) {
@@ -76,6 +87,7 @@ export async function createProduct(
         featured,
         slug: slugify(name),
         status: ProductStatus.ACTIVE,
+        discountedPrice,
       },
     });
   } catch (error) {
@@ -98,6 +110,9 @@ export async function editProduct(
     name: formData.get("name"),
     description: formData.get("description"),
     price: parseFloat(formData.get("price") as string),
+    discountedPrice: parseFloat(
+      (formData.get("discountedPrice") as string) ?? "0"
+    ),
     stock: parseInt(formData.get("stock") as string, 10),
     imageUrl: formData.get("imageUrl"),
     featured: formData.get("featured") === "on",
@@ -116,8 +131,17 @@ export async function editProduct(
     where: { id: validatedFields.data.id },
   });
 
-  let { id, name, description, price, stock, imageUrl, categoryId, featured } =
-    validatedFields.data;
+  let {
+    id,
+    name,
+    description,
+    price,
+    stock,
+    imageUrl,
+    categoryId,
+    featured,
+    discountedPrice,
+  } = validatedFields.data;
 
   price *= 100;
 
@@ -138,6 +162,7 @@ export async function editProduct(
         stock,
         imageUrl,
         categoryId,
+        discountedPrice,
         slug: slugify(name),
         status: ProductStatus.ACTIVE,
         featured,

@@ -42,7 +42,13 @@ const CartProvider: React.FC<{
 
   useEffect(() => {
     let total = 0;
-    cart.forEach((crr) => (total += crr.product.price * crr.quantity));
+    cart.forEach(
+      (crr) =>
+        (total +=
+          (crr.product.discountedPrice != 0
+            ? crr.product.discountedPrice
+            : crr.product.price) * crr.quantity)
+    );
     setCartTotal(total);
 
     // Weird bug starts to make infinite requests to the server

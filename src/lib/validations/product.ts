@@ -7,6 +7,11 @@ const ProductSchema = z.object({
   name: z.string().min(1, "Product name is required"),
   description: z.string().min(1, "Product description is required"),
   price: z.number().positive("Price must be a positive number"),
+  discountedPrice: z
+    .number()
+    .positive("Discounted Price must be a positive number")
+    .optional()
+    .default(0),
   stock: z.number().int().nonnegative("Stock must be a non-negative integer"),
   imageUrl: z.string().url().optional(),
   featured: z.boolean().optional().default(false),

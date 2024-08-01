@@ -52,11 +52,11 @@ export default async function page({ params }: { params: { id: string } }) {
                 <div>
                   <p className="font-medium">{item.product.name}</p>
                   <p className="text-sm text-gray-600">
-                    {item.quantity} x ₹ {formatCurrency(item.product.price)}
+                    {item.quantity} x ₹ {formatCurrency(item.price)}
                   </p>
                 </div>
                 <p className="font-semibold">
-                  ₹{formatCurrency(item.quantity * item.product.price)}
+                  ₹{formatCurrency(item.quantity * item.price)}
                 </p>
               </li>
             ))}

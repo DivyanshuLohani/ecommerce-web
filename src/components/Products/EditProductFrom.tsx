@@ -179,6 +179,38 @@ export default function ProductEditForm({
             </div>
           ) : null}
         </div>
+        {/* Discounted Price */}
+        <div className="mb-4">
+          <Label htmlFor="dprice" className="mb-2 block text-sm font-medium">
+            Discounted Price
+          </Label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <Input
+                id="dprice"
+                name="discountedPrice"
+                type="number"
+                step="0.01"
+                placeholder="Enter a discount price"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                aria-describedby="dprice-error"
+                defaultValue={product.discountedPrice / 100}
+              />
+              <IndianRupeeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+          </div>
+          {state.errors?.discountedPrice ? (
+            <div
+              id="dprice-error"
+              aria-live="polite"
+              className="mt-2 text-sm text-red-500"
+            >
+              {state.errors.discountedPrice.map((error: string) => (
+                <p key={error}>{error}</p>
+              ))}
+            </div>
+          ) : null}
+        </div>
 
         {/* Stock */}
         <div className="mb-4">
