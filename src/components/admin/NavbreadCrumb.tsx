@@ -1,5 +1,5 @@
 "use client";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -9,10 +9,9 @@ import {
   BreadcrumbPage,
 } from "../ui/breadcrumb";
 import Link from "next/link";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 
 export default function DashboardBreadcrumb() {
-  const router = useRouter();
   const pathname = usePathname();
   const breadcrumbs = useMemo(
     function generateBreadcrumbs() {
@@ -42,14 +41,14 @@ export default function DashboardBreadcrumb() {
             );
           }
           return (
-            <>
-              <BreadcrumbItem key={i}>
+            <React.Fragment key={i}>
+              <BreadcrumbItem>
                 <BreadcrumbLink asChild>
                   <Link href={e.href}>{e.text}</Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
-            </>
+            </React.Fragment>
           );
         })}
       </BreadcrumbList>
