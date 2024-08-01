@@ -16,19 +16,16 @@ export default async function BestSellers() {
       <h2 className="text-center w-full text-2xl font-bold">
         OUR BEST SELLERS
       </h2>
-      {/* <div className=""> */}
+
       <Carousel>
         <CarouselContent className="w-full">
           {products.map((p, index) => (
-            <CarouselItem key={p.id} className="basis-1 md:basis-1/4">
+            <CarouselItem key={p.id} className="basis-1/2 md:basis-1/4">
               <ProductCard product={p} key={index} />
             </CarouselItem>
           ))}
         </CarouselContent>
-        {/* <CarouselPrevious />
-        <CarouselNext /> */}
       </Carousel>
-      {/* </div> */}
     </section>
   );
 }
