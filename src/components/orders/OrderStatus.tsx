@@ -1,7 +1,9 @@
+"use client";
 import { Order } from "@prisma/client";
 import React from "react";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { CheckCircleIcon, PackageCheckIcon, Truck } from "lucide-react";
+import { updateOrderStatus } from "@/lib/admin";
 
 export default function OrderStatus({ order }: { order: Order }) {
   return (
@@ -24,7 +26,19 @@ export default function OrderStatus({ order }: { order: Order }) {
               }`}
             ></CardContent>
           </Card>
-          <Card className="shadow-lg">
+          <Card
+            className="shadow-lg cursor-pointer"
+            onClick={async () => {
+              if (
+                !confirm(
+                  "Are you sure you want to change the order status?\nThis cannot be undone."
+                )
+              )
+                return;
+              if (order.status != "SHIPPED" && order.status != "DELIVERED")
+                await updateOrderStatus(order.id, "SHIPPED");
+            }}
+          >
             <CardHeader className="flex flex-col gap-2 font-bold">
               <PackageCheckIcon />
               SHIPPED
@@ -37,7 +51,19 @@ export default function OrderStatus({ order }: { order: Order }) {
               }`}
             ></CardContent>
           </Card>
-          <Card className="shadow-lg">
+          <Card
+            className="shadow-lg cursor-pointer"
+            onClick={async () => {
+              if (
+                !confirm(
+                  "Are you sure you want to change the order status?\nThis cannot be undone."
+                )
+              )
+                return;
+              if (order.status != "DELIVERED")
+                await updateOrderStatus(order.id, "DELIVERED");
+            }}
+          >
             <CardHeader className="flex flex-col gap-2 font-bold">
               <Truck />
               DELIVERED

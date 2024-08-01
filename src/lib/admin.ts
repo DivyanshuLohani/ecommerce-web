@@ -101,3 +101,14 @@ export async function getOrder(id: number) {
   });
   return order;
 }
+
+export async function updateOrderStatus(id: number, status: OrderStatus) {
+  await prisma.order.update({
+    where: { id },
+    data: {
+      status,
+    },
+  });
+
+  revalidatePath(`/admin/orders/${id}`);
+}
