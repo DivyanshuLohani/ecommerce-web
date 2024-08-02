@@ -9,27 +9,34 @@ export async function fetchCategories() {
 export async function fetchProducts(
   currentPage: number,
   query: string = "",
-  perPage: number = ITEMS_PER_PAGE
+  perPage: number = ITEMS_PER_PAGE,
+  categoryId: number = -1
 ) {
   const offset = (currentPage - 1) * perPage;
+
+  const whereClause: any =
+    categoryId != -1
+      ? {
+          OR: [
+            { name: { contains: query, mode: "insensitive" } },
+            { description: { contains: query, mode: "insensitive" } },
+          ],
+          categoryId,
+        }
+      : {
+          OR: [
+            { name: { contains: query, mode: "insensitive" } },
+            { description: { contains: query, mode: "insensitive" } },
+          ],
+        };
 
   try {
     const [totalProducts, products] = await prisma.$transaction([
       prisma.product.count({
-        where: {
-          OR: [
-            { name: { contains: query, mode: "insensitive" } },
-            { description: { contains: query, mode: "insensitive" } },
-          ],
-        },
+        where: whereClause,
       }),
       prisma.product.findMany({
-        where: {
-          OR: [
-            { name: { contains: query, mode: "insensitive" } },
-            { description: { contains: query, mode: "insensitive" } },
-          ],
-        },
+        where: whereClause,
         orderBy: {
           createdAt: "asc",
         },
@@ -78,6 +85,14 @@ export async function getFeaturedProducts() {
   return await prisma.product.findMany({
     where: {
       featured: true,
+    },
+  });
+}
+
+export async function findCategoryByString(s: string) {
+  return await prisma.category.findFirst({
+    where: {
+      name: { contains: s, mode: "insensitive" },
     },
   });
 }

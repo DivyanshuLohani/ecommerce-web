@@ -29,7 +29,6 @@ export function discountPercent(orignal: number, discount: number) {
   if (isNaN(orignal) || isNaN(discount)) throw new Error("Invalid number");
   if (discount > orignal)
     throw new Error("Discount is higher than orignal number");
-
-  const discountPercent = Math.abs(100 - (orignal / discount) * 100).toFixed(0);
+  const discountPercent = (((orignal - discount) / orignal) * 100).toFixed(0);
   return discountPercent;
 }

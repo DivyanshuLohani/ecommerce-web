@@ -24,6 +24,7 @@ export default function Form() {
     const fileReader = new FileReader();
     fileReader.onloadend = () => {
       setImage((fileReader.result as string) ?? "");
+      console.log(fileReader.result);
     };
     fileReader.readAsDataURL(file);
   };
@@ -111,7 +112,7 @@ export default function Form() {
                 onChange={(e) => handleImage(e.target.files)}
               />
               <Input
-                name="imageUrl"
+                name="image"
                 type="text"
                 className="hidden"
                 value={image}

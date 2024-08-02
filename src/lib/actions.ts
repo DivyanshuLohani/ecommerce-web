@@ -68,7 +68,10 @@ export async function createProduct(
     featured,
     discountedPrice,
   } = validatedFields.data;
+
+  // Convert to paise
   price *= 100;
+  discountedPrice *= 100;
 
   if (imageUrl) {
     const uploadResult = await cloudinary.uploader.upload(imageUrl);
@@ -143,7 +146,9 @@ export async function editProduct(
     discountedPrice,
   } = validatedFields.data;
 
+  // Convert to paise
   price *= 100;
+  discountedPrice *= 100;
 
   if (imageUrl && imageUrl != product?.imageUrl) {
     const uploadResult = await cloudinary.uploader.upload(imageUrl);
