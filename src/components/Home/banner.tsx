@@ -1,23 +1,30 @@
-import * as React from "react";
-
-import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
+import Link from "next/link";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
+import { fetchBanners } from "@/lib/data";
 
-export default function BannerSection() {
+export default async function BannerSection() {
+  const banners = await fetchBanners();
   return (
     <Carousel>
       <CarouselContent>
-        {Array.from({ length: 10 }).map((_, index) => (
-          <CarouselItem key={index}>
-            <div className="p-1 w-screen">
-              <img src="/banner.jpg" alt="" className="h-full" />
-            </div>
+        {banners.map((b) => (
+          <CarouselItem key={b.id}>
+            <Link href={b.url}>
+              <div className="p-1 w-screen">
+                <Image
+                  height={300}
+                  width={1024}
+                  src={b.imageUrl}
+                  alt=""
+                  className="h-full w-full"
+                />
+              </div>
+            </Link>
           </CarouselItem>
         ))}
       </CarouselContent>

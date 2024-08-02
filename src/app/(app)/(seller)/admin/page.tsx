@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ProductsTable } from "@/components/admin/ProductTable";
 import Link from "next/link";
 import { fetchProducts } from "@/lib/data";
+import BannersTable from "@/components/Products/BannersTable";
 
 export default async function ProductsPage({
   searchParams,
@@ -50,6 +51,7 @@ export default async function ProductsPage({
           </Button>
         </div>
       </div>
+      <BannersTable />
       <TabsContent value="all">
         <ProductsTable
           products={products}

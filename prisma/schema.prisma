@@ -133,6 +133,13 @@ model AnonymousCartItem {
   @@unique([token, productId])
 }
 
+model Banner {
+  id        Int      @id @default(autoincrement())
+  url       String
+  imageUrl  String
+  createdAt DateTime @default(now())
+}
+
 enum OrderStatus {
   PENDING
   ACCEPTED

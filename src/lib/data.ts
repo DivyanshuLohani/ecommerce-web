@@ -96,3 +96,7 @@ export async function findCategoryByString(s: string) {
     },
   });
 }
+
+export async function fetchBanners() {
+  return await prisma.banner.findMany();
+}

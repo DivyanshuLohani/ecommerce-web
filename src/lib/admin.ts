@@ -4,6 +4,7 @@ import { prisma } from "./prisma";
 import { v2 as c } from "cloudinary";
 import { redirect } from "next/navigation";
 import { OrderStatus } from "@prisma/client";
+import { BannerFormState, CreateBanner } from "./validations/banner";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -111,4 +112,42 @@ export async function updateOrderStatus(id: number, status: OrderStatus) {
   });
 
   revalidatePath(`/admin/orders/${id}`);
+}
+
+export async function createBanner(state: BannerFormState, data: FormData) {
+  const validatedFormData = CreateBanner.safeParse({
+    name: (data.get("url") as string) ?? "",
+    imageUrl: (data.get("image") as string) ?? "",
+  });
+
+  if (!validatedFormData.success) {
+    return {
+      errors: validatedFormData.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to create banner.",
+    };
+  }
+
+  let { url, imageUrl } = validatedFormData.data;
+
+  if (imageUrl) {
+    const uploadResult = await c.uploader.upload(imageUrl);
+    imageUrl = uploadResult.secure_url;
+  }
+
+  try {
+    await prisma.banner.create({
+      data: {
+        url,
+        imageUrl,
+      },
+    });
+  } catch (e) {
+    console.log("Error creating category", e);
+    return {
+      message: "Database Error please try again later.",
+    };
+  }
+
+  revalidatePath("/admin/");
+  redirect("/admin/");
 }
