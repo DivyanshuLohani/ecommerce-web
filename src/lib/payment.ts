@@ -8,6 +8,7 @@ import { getAddressFromCookie } from "./actions";
 import { redirect } from "next/navigation";
 import RazorPay from "razorpay";
 import { validatePaymentVerification } from "razorpay/dist/utils/razorpay-utils";
+import { cookies } from "next/headers";
 
 const razorpay = new RazorPay({
   key_id: process.env.NEXT_PUBLIC_RAZORPAY_ID || "",
@@ -166,7 +167,7 @@ export async function paymentSuccess(
       status: "ACCEPTED",
     },
   });
-
+  cookies().delete("address");
   await clearCart();
 }
 
