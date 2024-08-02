@@ -1,5 +1,5 @@
 "use client";
-import { formatCurrency } from "@/lib/utils";
+import { discountPercent, formatCurrency } from "@/lib/utils";
 import type { Product } from "@prisma/client";
 import { Suspense } from "react";
 import AddToCart from "../Cart/AddToCart";
@@ -9,12 +9,27 @@ export function ProductDescription({ product }: { product: Product }) {
     <>
       <div className="mb-6 flex flex-col border-b pb-6 dark:border-neutral-700">
         <h1 className="mb-2 text-5xl font-medium">{product.name}</h1>
-        <div className="flex gap-5 items-center">
-          <h3 className="text-2xl">₹ {formatCurrency(product.price)}</h3>
-          <div className="flex flex-col">
-            <span className=" line-through">₹ {formatCurrency(1999)}</span>
-            <span>You save ₹ {formatCurrency(1999)}</span>
-          </div>
+        <div className="flex gap-2 flex-col">
+          {product.discountedPrice != 0 && (
+            <span className="line-through">
+              ₹ {formatCurrency(product.price)}
+            </span>
+          )}
+          <h3 className="text-3xl">
+            ₹
+            {formatCurrency(
+              product.discountedPrice != 0
+                ? product.discountedPrice
+                : product.price
+            )}
+          </h3>
+          {product.discountedPrice != 0 ? (
+            <div className="flex flex-col">
+              <span className="text-red-500 text-2xl font-bold">
+                {discountPercent(product.price, product.discountedPrice)}% off
+              </span>
+            </div>
+          ) : null}
         </div>
       </div>
 
