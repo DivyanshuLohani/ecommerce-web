@@ -1,5 +1,5 @@
 "use server";
-import { getCart, updateCart } from "./cart";
+import { clearCart, getCart, updateCart } from "./cart";
 import { OrderProduct } from "@prisma/client";
 import { prisma } from "./prisma";
 import { getServerSession } from "next-auth";
@@ -166,6 +166,8 @@ export async function paymentSuccess(
       status: "ACCEPTED",
     },
   });
+
+  await clearCart();
 }
 
 export async function getOrder(id: string) {
