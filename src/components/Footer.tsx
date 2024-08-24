@@ -106,15 +106,15 @@ export default function Footer() {
           </ul>
         </div>
       </div>
-      <div className="flex justify-between border-t items-center py-3 px-5 md:px-10">
-        <span>Copyright&copy;{new Date().getFullYear()}</span>
-        <span>
+      <div className="flex justify-end border-t items-center py-3 px-5 md:px-10 bg-blue-50">
+        {/* <span>Copyright&copy;{new Date().getFullYear()}</span> */}
+        <span className="text-sm">
           <Link
             href={"https://divyanshulohani.github.io/"}
             referrerPolicy="no-referrer"
             className="hover:text-[#4050f8] transition-colors duration-300"
           >
-            Developed by Divyanshu Lohani
+            Designed and Developed by Divyanshu Lohani
           </Link>
         </span>
       </div>

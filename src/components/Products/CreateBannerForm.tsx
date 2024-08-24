@@ -22,7 +22,6 @@ export default function CreateBannerForm() {
     const fileReader = new FileReader();
     fileReader.onloadend = () => {
       setImage((fileReader.result as string) ?? "");
-      console.log(fileReader.result);
     };
     fileReader.readAsDataURL(file);
   };

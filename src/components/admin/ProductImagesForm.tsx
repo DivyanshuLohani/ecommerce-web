@@ -14,10 +14,6 @@ export default function ProductImagesForm({ product }: { product: Product }) {
     error: "",
   });
 
-  useEffect(() => {
-    console.log(images);
-  }, [images]);
-
   const handleImage = (files: FileList | null) => {
     if (!files) return;
     if (files.length <= 0) return;
