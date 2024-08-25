@@ -98,7 +98,7 @@ model Payment {
 
 model Address {
   id          Int      @id @default(autoincrement())
-  userId      Int?     @unique
+  userId      Int?
   user        User?    @relation(fields: [userId], references: [id])
   phoneNumber String   @default("")
   email       String   @default("")
