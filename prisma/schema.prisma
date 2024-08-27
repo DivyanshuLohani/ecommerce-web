@@ -25,7 +25,7 @@ model Product {
   name              String
   description       String
   price             Int
-  discountedPrice   Int                 @default(0)
+  discountedPrice   Int?                 
   stock             Int
   imageUrl          String?
   categoryId        Int

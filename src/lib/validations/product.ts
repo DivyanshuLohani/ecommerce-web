@@ -9,9 +9,8 @@ const ProductSchema = z.object({
   price: z.number().positive("Price must be a positive number"),
   discountedPrice: z
     .number()
-    .positive("Discounted Price must be a positive number")
-    .optional()
-    .default(0),
+    .nonnegative({ message: "Discounted price must be a non-negative integer" })
+    .nullable(), // Optional, can be null or a non-negative integer
   stock: z.number().int().nonnegative("Stock must be a non-negative integer"),
   imageUrl: z.string().url().optional(),
   featured: z.boolean().optional().default(false),
@@ -34,3 +33,16 @@ export const EditProduct = ProductSchema.omit({
   updatedAt: true,
 });
 export default ProductSchema;
+
+export type ProductFormState = {
+  errors?: {
+    name?: string[] | undefined;
+    description?: string[] | undefined;
+    price?: string[] | undefined;
+    stock?: string[] | undefined;
+    imageUrl?: string[] | undefined;
+    categoryId?: string[] | undefined;
+    status?: string[] | undefined;
+  };
+  message?: string | null;
+};

@@ -2,7 +2,11 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { CreateProduct, EditProduct } from "./validations/product";
+import {
+  CreateProduct,
+  EditProduct,
+  ProductFormState,
+} from "./validations/product";
 import { prisma } from "./prisma";
 import { Address, ProductStatus } from "@prisma/client";
 import { v2 as cloudinary } from "cloudinary";
@@ -19,37 +23,33 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export type ProductFormState = {
-  errors?: {
-    name?: string[] | undefined;
-    description?: string[] | undefined;
-    price?: string[] | undefined;
-    stock?: string[] | undefined;
-    imageUrl?: string[] | undefined;
-    categoryId?: string[] | undefined;
-    status?: string[] | undefined;
-  };
-  message?: string | null;
-};
-
-export async function createProduct(
-  prevState: ProductFormState,
-  formData: FormData
-) {
+function getProductData(formData: FormData) {
+  const dPField = formData.get("discountedPrice") as string;
+  let dp;
+  if (dPField) {
+    dp = parseFloat(dPField);
+  } else {
+    dp = null;
+  }
   const validatedFields = CreateProduct.safeParse({
     name: formData.get("name"),
     description: formData.get("description"),
     price: parseFloat(formData.get("price") as string),
-    discountedPrice: parseFloat(
-      (formData.get("discountedPrice") as string) ?? "0"
-    ),
+    discountedPrice: dp,
     stock: parseInt(formData.get("stock") as string, 10),
     imageUrl: formData.get("imageUrl"),
     featured: formData.get("featured") === "on",
     categoryId: parseInt(formData.get("categoryId") as string, 10),
     status: "ACTIVE",
   });
+  return validatedFields;
+}
 
+export async function createProduct(
+  prevState: ProductFormState,
+  formData: FormData
+) {
+  const validatedFields = getProductData(formData);
   if (!validatedFields.success) {
     console.log(validatedFields.error.flatten().fieldErrors);
     return {
@@ -71,7 +71,7 @@ export async function createProduct(
 
   // Convert to paise
   price *= 100;
-  discountedPrice *= 100;
+  if (discountedPrice) discountedPrice *= 100;
 
   if (imageUrl) {
     const uploadResult = await cloudinary.uploader.upload(imageUrl);
@@ -108,6 +108,13 @@ export async function editProduct(
   prevState: ProductFormState,
   formData: FormData
 ) {
+  const dPField = formData.get("discountedPrice") as string;
+  let dp;
+  if (dPField) {
+    dp = parseFloat(dPField);
+  } else {
+    dp = null;
+  }
   const validatedFields = EditProduct.safeParse({
     id: parseInt(formData.get("id") as string),
     name: formData.get("name"),
@@ -122,7 +129,7 @@ export async function editProduct(
     categoryId: parseInt(formData.get("categoryId") as string, 10),
     status: "ACTIVE",
   });
-
+  // Send Error
   if (!validatedFields.success) {
     console.log(validatedFields.error.flatten().fieldErrors);
     return {
@@ -130,9 +137,17 @@ export async function editProduct(
       message: "Missing Fields. Failed to Edit Product.",
     };
   }
+
+  // Find the product
   const product = await prisma.product.findFirst({
     where: { id: validatedFields.data.id },
   });
+  if (!product) {
+    return {
+      errors: [],
+      message: "Invalid Product Id",
+    };
+  }
 
   let {
     id,
@@ -148,7 +163,7 @@ export async function editProduct(
 
   // Convert to paise
   price *= 100;
-  discountedPrice *= 100;
+  if (discountedPrice) discountedPrice *= 100;
 
   if (imageUrl && imageUrl != product?.imageUrl) {
     const uploadResult = await cloudinary.uploader.upload(imageUrl);
@@ -175,12 +190,11 @@ export async function editProduct(
     });
   } catch (error) {
     return {
-      message: "Database Error: Failed to Create Product.",
+      message: "Database Error: Failed to Edit Product.",
     };
   }
 
   revalidatePath("/admin/products/");
-  revalidatePath("/admin/");
   redirect("/admin/products/");
 }
 
