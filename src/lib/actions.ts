@@ -144,7 +144,6 @@ export async function editProduct(
   });
   if (!product) {
     return {
-      errors: [],
       message: "Invalid Product Id",
     };
   }

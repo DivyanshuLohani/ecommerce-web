@@ -27,7 +27,7 @@ export default function CartPageProducts() {
             <TableCell className="">
               ₹{" "}
               {formatCurrency(
-                p.product.discountedPrice != 0
+                p.product.discountedPrice
                   ? p.product.discountedPrice
                   : p.product.price
               )}
@@ -37,7 +37,7 @@ export default function CartPageProducts() {
               ₹{" "}
               {formatCurrency(
                 p.quantity *
-                  (p.product.discountedPrice != 0
+                  (p.product.discountedPrice
                     ? p.product.discountedPrice
                     : p.product.price)
               )}
