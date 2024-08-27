@@ -53,10 +53,9 @@ export async function placeOrder() {
   let total = 0;
   cart.forEach(
     (e) =>
-      (total +=
-        e.product.discountedPrice != 0
-          ? e.product.discountedPrice
-          : e.product.price * e.quantity)
+      (total += e.product.discountedPrice
+        ? e.product.discountedPrice
+        : e.product.price * e.quantity)
   );
 
   // TODO: Add features for discount
@@ -65,10 +64,9 @@ export async function placeOrder() {
     return {
       productId: e.product.id,
       quantity: e.quantity,
-      price:
-        e.product.discountedPrice != 0
-          ? e.product.discountedPrice
-          : e.product.price,
+      price: e.product.discountedPrice
+        ? e.product.discountedPrice
+        : e.product.price,
     };
   });
   const order = await prisma.order.create({

@@ -30,12 +30,12 @@ export default function CartProduct({
           <h3>
             ₹
             {formatCurrency(
-              (product.product.discountedPrice != 0
+              (product.product.discountedPrice
                 ? product.product.discountedPrice
                 : product.product.price) * product.quantity
             )}
           </h3>
-          {product.product.discountedPrice != 0 ? (
+          {product.product.discountedPrice ? (
             <div className="flex flex-col">
               <span className=" line-through">
                 ₹ {formatCurrency(product.product.price * product.quantity)}

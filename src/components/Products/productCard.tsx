@@ -9,7 +9,7 @@ import { Badge } from "../ui/badge";
 export default function ProductCard({ product }: { product: Product }) {
   return (
     <Card className="relative">
-      {product.discountedPrice != 0 ? (
+      {product.discountedPrice ? (
         <div className="absolute top-1 left-4 ">
           <Badge className="text-lg rounded-full" variant={"destructive"}>
             {discountPercent(product.price, product.discountedPrice)}% <br />
@@ -42,12 +42,10 @@ export default function ProductCard({ product }: { product: Product }) {
           <span className="text-xl">
             ₹
             {formatCurrency(
-              product.discountedPrice != 0
-                ? product.discountedPrice
-                : product.price
+              product.discountedPrice ? product.discountedPrice : product.price
             )}
           </span>
-          {product.discountedPrice != 0 ? (
+          {product.discountedPrice ? (
             <span>
               <span className="line-through">
                 ₹ {formatCurrency(product.price)}

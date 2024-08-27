@@ -19,7 +19,7 @@ const CartSummary = () => {
           >
             {item.product.name} - ₹{" "}
             {formatCurrency(
-              item.product.discountedPrice != 0
+              item.product.discountedPrice
                 ? item.product.discountedPrice
                 : item.product.price
             )}{" "}

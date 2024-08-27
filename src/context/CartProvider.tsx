@@ -45,7 +45,7 @@ const CartProvider: React.FC<{
     cart.forEach(
       (crr) =>
         (total +=
-          (crr.product.discountedPrice != 0
+          (crr.product.discountedPrice
             ? crr.product.discountedPrice
             : crr.product.price) * crr.quantity)
     );
