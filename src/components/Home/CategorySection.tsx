@@ -4,7 +4,9 @@ import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import { Category } from "@prisma/client";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Arrow } from "@radix-ui/react-select";
 
 interface CategorySectionProps {
   category: Category;
@@ -38,8 +40,10 @@ export default async function CategorySection({
           ))}
         </CarouselContent>
       </Carousel>
-      <Button className="max-w-sm" asChild>
-        <Link href={`/category/${category.name.toLowerCase()}`}>View All</Link>
+      <Button className="max-w-sm flex gap-2" asChild>
+        <Link href={`/category/${category.name.toLowerCase()}`}>
+          View All <ArrowRight size={20} />
+        </Link>
       </Button>
     </section>
   );

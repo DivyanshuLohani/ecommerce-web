@@ -9,14 +9,14 @@ import { cn } from "@/lib/utils";
 export default function CategoryCard({ category }: { category: Category }) {
   return (
     <div className={cn("flex flex-col items-center")}>
-      <Link href={`/category/${category.name.toLowerCase()}`} className="group">
-        <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-primary transition-transform duration-300 group-hover:scale-105">
+      <Link href={`/category/${category.name.toLowerCase()}`} className="">
+        <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-primary">
           <Image
             draggable={false}
             src={category.imageUrl ?? ""}
             alt={category.name}
             fill
-            className="object-cover"
+            className="object-cover hover:scale-110 transition-transform duration-300"
             sizes="(max-width: 768px) 128px, 160px"
           />
         </div>
