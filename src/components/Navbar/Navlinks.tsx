@@ -1,11 +1,11 @@
+"use client";
 import { User2 } from "lucide-react";
 import Link from "next/link";
 import CartButton from "../Cart/CartButton";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { useSession } from "next-auth/react";
 
-export default async function Navlinks() {
-  const session = await getServerSession(authOptions);
+export default function Navlinks() {
+  const { data: session } = useSession();
   return (
     <ul className="flex justify-between gap-5">
       {session?.user.isAdmin ? (

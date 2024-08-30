@@ -8,7 +8,7 @@ import { Badge } from "../ui/badge";
 
 export default function ProductCard({ product }: { product: Product }) {
   return (
-    <Card className="relative">
+    <Card className="w-full max-w-sm mx-auto">
       {product.discountedPrice ? (
         <div className="absolute top-1 left-4 ">
           <Badge className="text-lg rounded-full" variant={"destructive"}>
@@ -18,26 +18,22 @@ export default function ProductCard({ product }: { product: Product }) {
         </div>
       ) : null}
       <Link href={`/products/${product.slug}`}>
-        <CardHeader className="p-0 overflow-hidden">
+        <div className="aspect-square relative overflow-hidden">
           <Image
-            width={200}
-            height={200}
-            className="rounded-t-lg w-full hover:scale-125 duration-500"
             src={product.imageUrl ?? ""}
-            alt=""
+            alt={product.name}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-        </CardHeader>
+        </div>
       </Link>
-      <CardContent className="mt-5">
+      <CardContent className="p-4">
         <Link href={`/products/${product.slug}`}>
-          <div className="title">
-            <span className="font-semibold hover:underline">
-              {product.name}
-            </span>
-          </div>
+          <h3 className="font-semibold text-lg leading-tight h-12 overflow-hidden hover:underline">
+            {product.name}
+          </h3>
         </Link>
-        <br />
-
         <div className="flex gap-3 items-center">
           <span className="text-xl">
             ₹
@@ -57,8 +53,8 @@ export default function ProductCard({ product }: { product: Product }) {
           ) : null}
         </div>
       </CardContent>
-      <CardFooter>
-        <AddToCart className="w-full" product={product} />
+      <CardFooter className="p-4">
+        <AddToCart product={product} className="w-full" />
       </CardFooter>
     </Card>
   );
