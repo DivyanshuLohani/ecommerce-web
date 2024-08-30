@@ -17,7 +17,7 @@ export default async function CategorySection({
 }: CategorySectionProps) {
   const { products } = await fetchProducts(1, "", 5, category.id);
   return (
-    <section className="flex flex-col w-full py-10 px-5 gap-10 md:px-10 items-center">
+    <section className="flex flex-col w-full py-10 px-5 gap-10 md:px-10">
       <div className={cn("flex items-center justify-center w-full my-8")}>
         <div className={cn("w-10 h-2", "bg-black")}></div>
         <h2
@@ -40,11 +40,14 @@ export default async function CategorySection({
           ))}
         </CarouselContent>
       </Carousel>
-      <Button className="max-w-sm flex gap-2" asChild>
-        <Link href={`/category/${category.name.toLowerCase()}`}>
-          View All <ArrowRight size={20} />
-        </Link>
-      </Button>
+
+      <div className="flex w-full items-center justify-center">
+        <Button className="max-w-sm flex gap-2" asChild>
+          <Link href={`/category/${category.name.toLowerCase()}`}>
+            View All <ArrowRight size={20} />
+          </Link>
+        </Button>
+      </div>
     </section>
   );
 }
