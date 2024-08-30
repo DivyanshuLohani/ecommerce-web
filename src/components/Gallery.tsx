@@ -21,7 +21,7 @@ const createUrl = (
   return `${pathname}${queryString}`;
 };
 
-export function Gallery({
+export default function Gallery({
   images,
 }: {
   images: { src: string; altText: string }[];
@@ -102,6 +102,7 @@ export function Gallery({
                   href={createUrl(pathname, imageSearchParams)}
                   scroll={false}
                   className="h-full w-full"
+                  replace={true}
                 >
                   <GridTileImage
                     alt={image.altText}

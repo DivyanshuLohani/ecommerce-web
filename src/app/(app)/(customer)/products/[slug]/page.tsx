@@ -1,19 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-
-import { Gallery } from "@/components/Gallery";
-// import { ProductDescription } from "components/product/product-description";
-
-// import { getProduct, getProductRecommendations } from "lib/shopify";
-import Image from "next/image";
-import Link from "next/link";
+import Gallery from "@/components/Gallery";
 import { Suspense } from "react";
-import {
-  fetchProduct,
-  fetchProductImages,
-  fetchProductWithSlug,
-} from "@/lib/data";
-import { ProductDescription } from "@/components/Products/ProductDescription";
+import { fetchProduct, fetchProductWithSlug } from "@/lib/data";
+import ProductDescription from "@/components/Products/ProductDescription";
+import { Separator } from "@radix-ui/react-select";
 
 export async function generateMetadata({
   params,
@@ -23,9 +14,6 @@ export async function generateMetadata({
   const product = await fetchProduct(3);
 
   if (!product) return notFound();
-
-  //   const { url, width, height, altText: alt } = product.featuredImage || {};
-  //   const indexable = !product.tags.includes(HIDDEN_PRODUCT_TAG);
 
   return {
     title: product.name,
@@ -56,37 +44,38 @@ export default async function ProductPage({
   if (!product) return notFound();
 
   return (
-    <>
-      <div className="mx-auto max-w-screen-2xl px-4">
-        <div className="flex flex-col rounded-lg border border-neutral-200 bg-white p-8 md:p-12 lg:flex-row lg:gap-8 dark:border-neutral-800 dark:bg-black">
-          <div className="h-full w-full basis-full lg:basis-4/6">
-            <Suspense
-              fallback={
-                <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden" />
-              }
-            >
-              <Gallery
-                images={[
-                  {
-                    src: product.imageUrl ?? "",
-                    altText: "Featured Image",
-                  },
-                  ...product.images.map((e) => ({
-                    src: e.imageUrl,
-                    altText: "Product Image",
-                  })),
-                ]}
-              />
-            </Suspense>
-          </div>
-
-          <div className="basis-full lg:basis-2/6">
-            <ProductDescription product={product} />
-          </div>
+    <div className="mx-auto max-w-screen-2xl px-4">
+      <div className="flex flex-col rounded-lg border border-neutral-200 bg-white p-8 md:p-12 lg:flex-row lg:gap-8 dark:border-neutral-800 dark:bg-black">
+        <div className="h-full basis-full lg:basis-4/6 w-2/5">
+          <Suspense
+            fallback={
+              <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden" />
+            }
+          >
+            <Gallery
+              // productName={product.name}
+              images={[
+                {
+                  src: product.imageUrl ?? "",
+                  altText: "Featured Image",
+                },
+                ...product.images.map((e) => ({
+                  src: e.imageUrl,
+                  altText: "Product Image",
+                })),
+              ]}
+            />
+          </Suspense>
         </div>
-        {/* <RelatedProducts id={product.id} /> */}
+
+        <div className="basis-full lg:basis-2/6 space-y-10 w-full">
+          <ProductDescription product={product} />
+
+          <Separator className="my-12" />
+        </div>
       </div>
-    </>
+      {/* <RelatedProducts id={product.id} /> */}
+    </div>
   );
 }
 

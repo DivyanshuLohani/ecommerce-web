@@ -3,6 +3,7 @@ import { useCart } from "@/context/CartProvider";
 import type { Product } from "@prisma/client";
 import React from "react";
 import { Button, ButtonProps } from "../ui/button";
+import { ShoppingCart } from "lucide-react";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   product: Product;
@@ -18,7 +19,7 @@ const AddToCart = React.forwardRef<HTMLButtonElement, Props>(
         {...props}
         onClick={() => addProduct(product, quantity ?? 1)}
       >
-        Add to Cart
+        <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
       </Button>
     );
   }
