@@ -27,16 +27,10 @@ export default async function ProductsPage({
           </TabsTrigger> */}
         </TabsList>
         <div className="ml-auto flex items-center gap-2">
-          <Button size="sm" variant="outline" className="h-8 gap-1">
-            <File className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Export
-            </span>
-          </Button>
           <Button size="sm" className="h-8 gap-1" asChild>
             <Link href={"/admin/products/create"}>
               <PlusCircle className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+              <span className="sm:not-sr-only sm:whitespace-nowrap">
                 Add Product
               </span>
             </Link>
@@ -44,7 +38,7 @@ export default async function ProductsPage({
           <Button size="sm" className="h-8 gap-1" asChild>
             <Link href={"/admin/products/createcategory"}>
               <PlusCircle className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+              <span className="sm:not-sr-only sm:whitespace-nowrap">
                 Add Category
               </span>
             </Link>

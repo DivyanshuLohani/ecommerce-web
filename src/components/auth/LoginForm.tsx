@@ -1,20 +1,18 @@
 "use client";
 
 import * as React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-
-import { cn } from "@/lib/utils";
 import { userAuthSchema } from "@/lib/validations/auth";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 import Link from "next/link";
-// import { Icons } from "@/components/icons";
+import { Card, CardContent, CardFooter } from "../ui/card";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -63,20 +61,16 @@ export default function LoginForm({ className, ...props }: UserAuthFormProps) {
   }
 
   return (
-    <div className={cn("grid gap-6", className)} {...props}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid gap-2">
-          <div className="grid gap-1">
-            <Label className="text-sm font-bold" htmlFor="email">
-              Email
-            </Label>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Card>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="email">Email address</Label>
             <Input
               id="email"
-              placeholder="name@example.com"
               type="email"
-              autoCapitalize="none"
-              autoComplete="email"
-              autoCorrect="off"
+              placeholder="m@example.com"
+              required
               disabled={isLoading}
               {...register("email")}
             />
@@ -85,25 +79,22 @@ export default function LoginForm({ className, ...props }: UserAuthFormProps) {
                 {errors.email.message}
               </p>
             )}
-            <span className="mt-5"></span>
-            <Label
-              className="text-sm font-bold flex justify-between"
-              htmlFor="password"
-            >
-              <span>Password</span>
-              <span className="font-normal">
-                <Link href={"/forgot/"} className="underline">
-                  Forgot Password?
-                </Link>
-              </span>
-            </Label>
+          </div>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password">Password</Label>
+              <Link
+                href="#"
+                className="text-sm font-medium text-primary hover:underline"
+                prefetch={false}
+              >
+                Forgot password?
+              </Link>
+            </div>
             <Input
               id="password"
-              placeholder="name@example.com"
               type="password"
-              autoCapitalize="none"
-              autoComplete="off"
-              autoCorrect="off"
+              required
               disabled={isLoading}
               {...register("password")}
             />
@@ -113,15 +104,13 @@ export default function LoginForm({ className, ...props }: UserAuthFormProps) {
               </p>
             )}
           </div>
-          <span className="mt-2"></span>
-          <Button className={cn(buttonVariants())} disabled={isLoading}>
-            {/* {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )} */}
+        </CardContent>
+        <CardFooter>
+          <Button type="submit" className="w-full">
             Login
           </Button>
-        </div>
-      </form>
-    </div>
+        </CardFooter>
+      </Card>
+    </form>
   );
 }
