@@ -1,12 +1,25 @@
+"use client";
 import Link from "next/link";
 import React from "react";
 import { MapPin, Phone, Mail } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Footer() {
+  const fadeUpVariant = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
-    <footer className="flex flex-col border-t  pt-10 pb-5 w-full">
+    <footer className="flex flex-col border-t pt-10 pb-5 w-full">
       <div className="px-5 md:px-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 w-full gap-10 pb-5">
-        <div className="about">
+        <motion.div
+          className="about"
+          variants={fadeUpVariant}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
           <h4 className="text-lg font-semibold mb-5 uppercase">About Us</h4>
           <p>
             Maa Kali Griha Udyog stands as a symbol of quality and tradition in
@@ -14,8 +27,15 @@ export default function Footer() {
             handpicked products and accessories designed to meet your prayer,
             personal care, air care, and lifestyle needs.
           </p>
-        </div>
-        <div className="policies">
+        </motion.div>
+
+        <motion.div
+          className="policies"
+          variants={fadeUpVariant}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <h4 className="text-lg font-semibold mb-5 uppercase">Our Policies</h4>
           <ul>
             <Link
@@ -37,8 +57,15 @@ export default function Footer() {
               <li>Returns & Refund</li>
             </Link>
           </ul>
-        </div>
-        <div className="quick">
+        </motion.div>
+
+        <motion.div
+          className="quick"
+          variants={fadeUpVariant}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
           <h4 className="text-lg font-semibold mb-5 uppercase">Quick Links</h4>
           <ul>
             <Link
@@ -66,8 +93,15 @@ export default function Footer() {
               <li>Sitemap</li>
             </Link>
           </ul>
-        </div>
-        <div className="business">
+        </motion.div>
+
+        <motion.div
+          className="business"
+          variants={fadeUpVariant}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
           <h4 className="text-lg font-semibold mb-5 uppercase">
             Business Information
           </h4>
@@ -104,10 +138,16 @@ export default function Footer() {
               careful4u@hotmail.com
             </Link>
           </ul>
-        </div>
+        </motion.div>
       </div>
-      <div className="flex justify-end border-t items-center py-3 px-5 md:px-10 bg-blue-50">
-        {/* <span>Copyright&copy;{new Date().getFullYear()}</span> */}
+
+      <motion.div
+        className="flex justify-end border-t items-center py-3 px-5 md:px-10 bg-blue-50"
+        variants={fadeUpVariant}
+        initial="hidden"
+        whileInView="visible"
+        transition={{ duration: 0.6, delay: 0.5 }}
+      >
         <span className="text-sm">
           <Link
             href={"https://divyanshulohani.github.io/"}
@@ -117,7 +157,7 @@ export default function Footer() {
             Designed and Developed by Divyanshu Lohani
           </Link>
         </span>
-      </div>
+      </motion.div>
     </footer>
   );
 }

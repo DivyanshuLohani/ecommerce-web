@@ -10,6 +10,7 @@ import {
   usePathname,
   useSearchParams,
 } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion"; // Import motion and AnimatePresence
 
 const createUrl = (
   pathname: string,
@@ -43,22 +44,43 @@ export default function Gallery({
   const previousUrl = createUrl(pathname, previousSearchParams);
 
   const buttonClassName =
-    "h-full px-6 transition-all ease-in-out hover:scale-110 hover:text-black dark:hover:text-white flex items-center justify-center";
+    "h-full px-6 transition-all ease-in-out flex items-center justify-center";
+
+  // Animation variants for the image transition
+  const imageVariants = {
+    initial: { opacity: 0, x: 100 }, // Slide in from the right
+    animate: { opacity: 1, x: 0 }, // Fade in and slide to position
+    exit: { opacity: 0, x: -100 }, // Slide out to the left
+  };
 
   return (
     <div className="w-full">
       <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden">
-        {images[imageIndex] && (
-          <Image
-            className="h-full w-full object-contain"
-            fill
-            sizes="(min-width: 1024px) 66vw, 100vw"
-            alt={images[imageIndex]?.altText as string}
-            src={images[imageIndex]?.src as string}
-            priority={true}
-            draggable={false}
-          />
-        )}
+        <AnimatePresence mode="wait">
+          {" "}
+          {/* AnimatePresence to handle image transitions */}
+          {images[imageIndex] && (
+            <motion.div
+              key={imageIndex} // Ensure a unique key for each image
+              className="h-full w-full"
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={imageVariants}
+              transition={{ duration: 0.5 }} // Smooth transition between images
+            >
+              <Image
+                className="h-full w-full object-contain"
+                fill
+                sizes="(min-width: 1024px) 66vw, 100vw"
+                alt={images[imageIndex]?.altText as string}
+                src={images[imageIndex]?.src as string}
+                priority={true}
+                draggable={false}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {images.length > 1 ? (
           <div className="absolute bottom-[15%] flex w-full justify-center">
@@ -69,7 +91,12 @@ export default function Gallery({
                 className={buttonClassName}
                 scroll={false}
               >
-                <ArrowLeftIcon className="h-5" />
+                <motion.div
+                  whileHover={{ scale: 1.2 }} // Hover animation for the button
+                  transition={{ duration: 0.3 }}
+                >
+                  <ArrowLeftIcon className="h-5" />
+                </motion.div>
               </Link>
               <div className="mx-1 h-6 w-px bg-neutral-500"></div>
               <Link
@@ -78,7 +105,12 @@ export default function Gallery({
                 className={buttonClassName}
                 scroll={false}
               >
-                <ArrowRightIcon className="h-5" />
+                <motion.div
+                  whileHover={{ scale: 1.2 }} // Hover animation for the button
+                  transition={{ duration: 0.3 }}
+                >
+                  <ArrowRightIcon className="h-5" />
+                </motion.div>
               </Link>
             </div>
           </div>

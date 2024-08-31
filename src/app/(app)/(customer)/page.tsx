@@ -11,7 +11,7 @@ export default async function Home() {
   return (
     <>
       <BannerSection />
-      <ShopByCategory />
+      <ShopByCategory categories={categories} />
       <BestSellers />
       {categories.map((c) => (
         <CategorySection category={c} key={c.id} />

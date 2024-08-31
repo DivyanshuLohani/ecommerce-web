@@ -20,6 +20,7 @@ import {
 import ProductCard from "@/components/Products/productCard";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import BulkOrders from "./bulk-orders";
 
 export async function generateMetadata({
   params,
@@ -87,18 +88,7 @@ export default async function ProductPage({
           <ProductDescription product={product} />
 
           <Separator className="my-12" />
-          <div className="bg-gray-100 p-6 rounded-lg shadow-md ">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800 text-center">
-              For bulk orders
-            </h2>
-            <p className="text-gray-600 mb-6">
-              If you are a wholesale customer or interested in purchasing in
-              bulk, please get in touch with us for special pricing and offers.
-            </p>
-            <Button className="text-white py-2 px-4 rounded w-full" asChild>
-              <Link href={`/contact?productId=${product.id}`}>Contact Us</Link>
-            </Button>
-          </div>
+          <BulkOrders productId={product.id} />
         </div>
       </div>
       <RelatedProducts products={relatedProducts} />
