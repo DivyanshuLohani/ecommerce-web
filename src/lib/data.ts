@@ -100,3 +100,24 @@ export async function findCategoryByString(s: string) {
 export async function fetchBanners() {
   return await prisma.banner.findMany();
 }
+
+export async function getRelatedProducts(productId: number, limit: number = 5) {
+  const product = await prisma.product.findUnique({
+    where: { id: productId },
+    select: { categoryId: true },
+  });
+
+  if (!product) {
+    throw new Error("Product not found");
+  }
+
+  const relatedProducts = await prisma.product.findMany({
+    where: {
+      categoryId: product.categoryId,
+      id: { not: productId },
+    },
+    take: limit,
+  });
+
+  return relatedProducts;
+}

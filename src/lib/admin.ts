@@ -151,3 +151,29 @@ export async function createBanner(state: BannerFormState, data: FormData) {
   revalidatePath("/admin/");
   redirect("/admin/");
 }
+
+export async function getEnquiries(
+  currentPage: number,
+  itemsPerPage: number = ITEMS_PER_PAGE
+) {
+  const offset = (currentPage - 1) * itemsPerPage;
+  try {
+    const [totalEnquiries, enquiries] = await prisma.$transaction([
+      prisma.wholesaleInquiry.count(),
+      prisma.wholesaleInquiry.findMany({
+        orderBy: {
+          createdAt: "desc",
+        },
+        include: {
+          product: true,
+        },
+        skip: offset,
+        take: itemsPerPage,
+      }),
+    ]);
+
+    return { enquiries, totalEnquiries };
+  } catch (e) {
+    return { enquiries: [], totalEnquiries: 0 };
+  }
+}
