@@ -1,10 +1,9 @@
 "use server";
-import { clearCart, getCart, updateCart } from "./cart";
-import { OrderProduct } from "@prisma/client";
+import { clearCart, getCart } from "./cart";
 import { prisma } from "./prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./auth";
-import { getAddressFromCookie } from "./actions";
+import { getAddressFromCookie } from "./actions/addresses";
 import { redirect } from "next/navigation";
 import RazorPay from "razorpay";
 import { validatePaymentVerification } from "razorpay/dist/utils/razorpay-utils";
