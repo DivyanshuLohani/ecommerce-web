@@ -1,8 +1,7 @@
 "use client";
 import Link from "next/link";
-import React from "react";
-import { MapPin, Phone, Mail } from "lucide-react";
 import { motion } from "framer-motion";
+import ContactDetails from "./ContactDetails";
 
 export default function Footer() {
   const fadeUpVariant = {
@@ -11,15 +10,16 @@ export default function Footer() {
   };
 
   return (
-    <footer className="flex flex-col border-t pt-10 pb-5 w-full bg-background text-foreground">
+    <motion.footer
+      className="flex flex-col border-t pt-10 pb-5 w-full bg-background text-foreground"
+      variants={fadeUpVariant}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      transition={{ staggerChildren: 0.6 }}
+    >
       <div className="px-5 md:px-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 w-full gap-10 pb-5">
-        <motion.div
-          className="about"
-          variants={fadeUpVariant}
-          initial="hidden"
-          whileInView="visible"
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
+        <motion.div className="about">
           <h4 className="text-lg font-semibold mb-5 uppercase">About Us</h4>
           <p>
             Maa Kali Griha Udyog stands as a symbol of quality and tradition in
@@ -29,13 +29,7 @@ export default function Footer() {
           </p>
         </motion.div>
 
-        <motion.div
-          className="policies"
-          variants={fadeUpVariant}
-          initial="hidden"
-          whileInView="visible"
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
+        <motion.div className="policies">
           <h4 className="text-lg font-semibold mb-5 uppercase">Our Policies</h4>
           <ul>
             <Link
@@ -48,7 +42,7 @@ export default function Footer() {
               href={"/terms-conditions"}
               className="hover:text-primary transition-colors duration-300"
             >
-              <li>Terms & Condition</li>
+              <li>Terms & Conditions</li>
             </Link>
             <Link
               href={"/returns-refunds"}
@@ -59,13 +53,7 @@ export default function Footer() {
           </ul>
         </motion.div>
 
-        <motion.div
-          className="quick"
-          variants={fadeUpVariant}
-          initial="hidden"
-          whileInView="visible"
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
+        <motion.div className="quick">
           <h4 className="text-lg font-semibold mb-5 uppercase">Quick Links</h4>
           <ul>
             <Link
@@ -95,48 +83,12 @@ export default function Footer() {
           </ul>
         </motion.div>
 
-        <motion.div
-          className="business"
-          variants={fadeUpVariant}
-          initial="hidden"
-          whileInView="visible"
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
+        <motion.div className="business">
           <h4 className="text-lg font-semibold mb-5 uppercase">
             Business Information
           </h4>
           <ul className="flex flex-col gap-4">
-            <Link
-              href={"https://maps.app.goo.gl/1oCVKBYi6inVydiL8"}
-              referrerPolicy="no-referrer"
-              className="hover:text-primary transition-colors duration-300 flex gap-2 items-start justify-start"
-            >
-              <div className="mt-2">
-                <MapPin />
-              </div>
-              Maa Kali Griha Udyog, PT Road, near Kedia Dharamshala, Koritola,
-              Pachamba, Giridih, Jharkhand 815316
-            </Link>
-            <Link
-              href={"tel:+919431997397"}
-              referrerPolicy="no-referrer"
-              className="hover:text-primary transition-colors duration-300 flex gap-2 items-start justify-start"
-            >
-              <div className="">
-                <Phone />
-              </div>
-              +91 94319 97397
-            </Link>
-            <Link
-              href={"mailto:careful4u@hotmail.com"}
-              referrerPolicy="no-referrer"
-              className="hover:text-primary transition-colors duration-300 flex gap-2 items-start justify-start"
-            >
-              <div className="">
-                <Mail />
-              </div>
-              careful4u@hotmail.com
-            </Link>
+            <ContactDetails />
           </ul>
         </motion.div>
       </div>
@@ -152,6 +104,6 @@ export default function Footer() {
           </Link>
         </span>
       </motion.div>
-    </footer>
+    </motion.footer>
   );
 }
