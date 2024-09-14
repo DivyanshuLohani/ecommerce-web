@@ -1,16 +1,18 @@
 "use client";
 import { useCart } from "@/context/CartProvider";
 import { formatCurrency } from "@/lib/utils";
-import type { Product } from "@prisma/client";
-import React from "react";
+import { TOTAL_CART_VALUE_TO_CHECKOUT } from "./CheckoutForm";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const CartSummary = () => {
-  const { products, cartTotal } = useCart();
+  const { products, cartTotal, setCartOpen } = useCart();
+  const router = useRouter();
 
   return (
     <div className="mb-6 md:mb-0 md:w-1/2">
       <h2 className="text-xl font-semibold mb-4">Cart Summary</h2>
-      <ul className="space-y-4" suppressHydrationWarning>
+      <ul className="space-y-4">
         {products.map((item) => (
           <li
             key={item.product.id}
@@ -30,6 +32,30 @@ const CartSummary = () => {
       <div className="mt-6">
         <h3 className="text-lg font-bold">
           Total: ₹ {formatCurrency(cartTotal)}
+          <br />
+          {cartTotal < TOTAL_CART_VALUE_TO_CHECKOUT && (
+            <>
+              <span className="text-sm text-red-500">
+                Cart value must be greater than Rs.{" "}
+                {formatCurrency(TOTAL_CART_VALUE_TO_CHECKOUT)}
+              </span>
+              <br />
+              <span className="text-sm text-red-500">
+                Add items worth Rs.{" "}
+                {formatCurrency(TOTAL_CART_VALUE_TO_CHECKOUT - cartTotal)} to
+                poceed to checkout
+              </span>
+              <br />
+              <Button
+                onClick={() => {
+                  setCartOpen(false);
+                  router.push("/");
+                }}
+              >
+                Browse Products
+              </Button>
+            </>
+          )}
         </h3>
       </div>
     </div>

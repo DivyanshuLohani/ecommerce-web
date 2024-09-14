@@ -2,7 +2,12 @@
 import { Order } from "@prisma/client";
 import React from "react";
 import { Card, CardContent, CardHeader } from "../ui/card";
-import { CheckCircleIcon, PackageCheckIcon, Truck } from "lucide-react";
+import {
+  CheckCircleIcon,
+  PackageCheckIcon,
+  TimerIcon,
+  Truck,
+} from "lucide-react";
 import { updateOrderStatus } from "@/lib/actions/admin";
 
 export default function OrderStatus({ order }: { order: Order }) {
@@ -12,6 +17,41 @@ export default function OrderStatus({ order }: { order: Order }) {
       <CardContent>
         <div className="flex gap-2">
           <Card className="shadow-lg">
+            <CardHeader className="flex flex-col gap-2 font-bold">
+              <TimerIcon />
+              PENDING
+            </CardHeader>
+            <CardContent
+              className={`w-full h-1 ${
+                order.status === "PENDING" ||
+                order.status === "ACCEPTED" ||
+                order.status === "SHIPPED" ||
+                order.status === "DELIVERED"
+                  ? " bg-green-500"
+                  : "bg-red-500"
+              }`}
+            ></CardContent>
+          </Card>
+          <Card
+            className="shadow-lg cursor-pointer"
+            onClick={async () => {
+              if (
+                !(
+                  order.status != "ACCEPTED" &&
+                  order.status != "SHIPPED" &&
+                  order.status != "DELIVERED"
+                )
+              )
+                return;
+              if (
+                !confirm(
+                  "Are you sure you want to change the order status?\nThis cannot be undone."
+                )
+              )
+                return;
+              await updateOrderStatus(order.id, "ACCEPTED");
+            }}
+          >
             <CardHeader className="flex flex-col gap-2 font-bold">
               <CheckCircleIcon />
               ACCEPTED

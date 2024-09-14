@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 import RazorPay from "razorpay";
 import { validatePaymentVerification } from "razorpay/dist/utils/razorpay-utils";
 import { cookies } from "next/headers";
+import { OrderStatus } from "@prisma/client";
 
 const razorpay = new RazorPay({
   key_id: process.env.NEXT_PUBLIC_RAZORPAY_ID || "",
@@ -161,7 +162,7 @@ export async function paymentSuccess(
       id: payment.orderId,
     },
     data: {
-      status: "ACCEPTED",
+      status: OrderStatus.PENDING,
     },
   });
   cookies().delete("address");

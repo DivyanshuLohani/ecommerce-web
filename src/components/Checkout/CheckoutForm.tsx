@@ -7,6 +7,9 @@ import { Label } from "../ui/label";
 import AddressForm from "../Accounts/AddressForm";
 import { Button } from "../ui/button";
 import { selectedAddressCheckout } from "@/lib/actions/addresses";
+import { useCart } from "@/context/CartProvider";
+
+export const TOTAL_CART_VALUE_TO_CHECKOUT = 49900;
 
 interface CheckoutFormProps {
   addresses: Address[];
@@ -17,6 +20,7 @@ export default function CheckoutForm({ addresses }: CheckoutFormProps) {
     null
   );
   const [loading, setLoading] = useState<boolean>(false);
+  const { cartTotal } = useCart();
 
   return (
     <div className="flex flex-col space-y-4">
@@ -30,6 +34,7 @@ export default function CheckoutForm({ addresses }: CheckoutFormProps) {
             <RadioGroupItem
               value={address.id.toString()}
               id={address.id.toString()}
+              disabled={cartTotal < TOTAL_CART_VALUE_TO_CHECKOUT}
             />
             <Label htmlFor={address.id.toString()}>
               <AddressDisplay address={address} />
@@ -37,7 +42,11 @@ export default function CheckoutForm({ addresses }: CheckoutFormProps) {
           </div>
         ))}
         <div className="space-x-2 mt-4">
-          <RadioGroupItem value={"new"} id={"new"} />
+          <RadioGroupItem
+            value={"new"}
+            id={"new"}
+            disabled={cartTotal < TOTAL_CART_VALUE_TO_CHECKOUT}
+          />
           <Label htmlFor={"new"} className=" border p-4">
             Add a new Address
           </Label>
@@ -56,7 +65,7 @@ export default function CheckoutForm({ addresses }: CheckoutFormProps) {
             }
             setLoading(false);
           }}
-          disabled={loading}
+          disabled={cartTotal < TOTAL_CART_VALUE_TO_CHECKOUT || loading}
         >
           Proceed
         </Button>

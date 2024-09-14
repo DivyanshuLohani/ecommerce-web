@@ -16,8 +16,10 @@ export default async function OrdersPage({
 }: {
   searchParams: { page: string };
 }) {
-  const { orders: activeOrders, totalOrders: totalActiveOrders } =
+  const { orders: pendingOrders, totalOrders: totalPendingOrders } =
     await getOrders(parseInt(searchParams.page ?? "1"));
+  const { orders: activeOrders, totalOrders: totalActiveOrders } =
+    await getOrders(parseInt(searchParams.page ?? "1"), "ACCEPTED");
   const { orders: shippedOrders, totalOrders: totalshipppedOrders } =
     await getOrders(parseInt(searchParams.page ?? "1"), "SHIPPED");
   const { orders: deliveredOrders, totalOrders: totalDeliveredOrders } =
@@ -27,7 +29,8 @@ export default async function OrdersPage({
     <Tabs defaultValue="accepted">
       <div className="flex items-center">
         <TabsList>
-          <TabsTrigger value="accepted">Incoming</TabsTrigger>
+          <TabsTrigger value="pending">Incoming</TabsTrigger>
+          <TabsTrigger value="accepted">Accepted</TabsTrigger>
           <TabsTrigger value="shipped">Shipped</TabsTrigger>
           <TabsTrigger value="delivered">Delivered</TabsTrigger>
           <TabsTrigger value="canceled" className="hidden sm:flex">
@@ -49,6 +52,12 @@ export default async function OrdersPage({
           <CardDescription>View all orders.</CardDescription>
         </CardHeader>
         <CardContent>
+          <TabsContent value="pending">
+            <OrdersTable
+              totalOrders={totalPendingOrders}
+              orders={pendingOrders}
+            />
+          </TabsContent>
           <TabsContent value="accepted">
             <OrdersTable
               totalOrders={totalActiveOrders}

@@ -60,7 +60,7 @@ export async function createProductImage(
 
 export async function getOrders(
   currentPage: number,
-  status: OrderStatus = "ACCEPTED",
+  status: OrderStatus = "PENDING",
   itemsPerPage: number = ITEMS_PER_PAGE
 ) {
   const offset = (currentPage - 1) * itemsPerPage;
