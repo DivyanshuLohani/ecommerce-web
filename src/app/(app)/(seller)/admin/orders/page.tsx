@@ -9,7 +9,7 @@ import {
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { File } from "lucide-react";
 import OrdersTable from "@/components/orders/OrdersTable";
-import { getOrders } from "@/lib/admin";
+import { getOrders } from "@/lib/actions/admin";
 
 export default async function OrdersPage({
   searchParams,

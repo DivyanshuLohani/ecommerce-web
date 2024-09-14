@@ -7,7 +7,7 @@ import { useFormState } from "react-dom";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { useState } from "react";
-import { createBanner } from "@/lib/admin";
+import { createBanner } from "@/lib/actions/admin";
 
 export default function CreateBannerForm() {
   const initialState = { message: "", errors: {} };

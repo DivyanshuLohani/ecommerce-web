@@ -9,11 +9,10 @@ import { Badge } from "../ui/badge";
 import { Variants, motion } from "framer-motion";
 
 const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 100, rotate: 10, scale: 0.9 },
+  hidden: { opacity: 0, y: 100, scale: 0.9 },
   visible: {
     opacity: 1,
     y: 0,
-    rotate: 0,
     scale: 1,
     transition: { type: "spring", stiffness: 100, damping: 10 },
   },

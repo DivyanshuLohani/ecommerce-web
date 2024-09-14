@@ -11,7 +11,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="flex flex-col border-t pt-10 pb-5 w-full">
+    <footer className="flex flex-col border-t pt-10 pb-5 w-full bg-background text-foreground">
       <div className="px-5 md:px-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 w-full gap-10 pb-5">
         <motion.div
           className="about"
@@ -40,19 +40,19 @@ export default function Footer() {
           <ul>
             <Link
               href={"/privacy-policy"}
-              className="hover:text-[#4050f8] transition-colors duration-300"
+              className="hover:text-primary transition-colors duration-300"
             >
               <li>Privacy Policy</li>
             </Link>
             <Link
               href={"/terms-conditions"}
-              className="hover:text-[#4050f8] transition-colors duration-300"
+              className="hover:text-primary transition-colors duration-300"
             >
               <li>Terms & Condition</li>
             </Link>
             <Link
               href={"/returns-refunds"}
-              className="hover:text-[#4050f8] transition-colors duration-300"
+              className="hover:text-primary transition-colors duration-300"
             >
               <li>Returns & Refund</li>
             </Link>
@@ -70,25 +70,25 @@ export default function Footer() {
           <ul>
             <Link
               href={"/accounts/orders/"}
-              className="hover:text-[#4050f8] transition-colors duration-300"
+              className="hover:text-primary transition-colors duration-300"
             >
               <li>Track Order</li>
             </Link>
             <Link
               href={"/about"}
-              className="hover:text-[#4050f8] transition-colors duration-300"
+              className="hover:text-primary transition-colors duration-300"
             >
               <li>About Us</li>
             </Link>
             <Link
               href={"/contact"}
-              className="hover:text-[#4050f8] transition-colors duration-300"
+              className="hover:text-primary transition-colors duration-300"
             >
               <li>Contact Us</li>
             </Link>
             <Link
               href={"/sitemap"}
-              className="hover:text-[#4050f8] transition-colors duration-300"
+              className="hover:text-primary transition-colors duration-300"
             >
               <li>Sitemap</li>
             </Link>
@@ -109,7 +109,7 @@ export default function Footer() {
             <Link
               href={"https://maps.app.goo.gl/1oCVKBYi6inVydiL8"}
               referrerPolicy="no-referrer"
-              className="hover:text-[#4050f8] transition-colors duration-300 flex gap-2 items-start justify-start"
+              className="hover:text-primary transition-colors duration-300 flex gap-2 items-start justify-start"
             >
               <div className="mt-2">
                 <MapPin />
@@ -120,7 +120,7 @@ export default function Footer() {
             <Link
               href={"tel:+919431997397"}
               referrerPolicy="no-referrer"
-              className="hover:text-[#4050f8] transition-colors duration-300 flex gap-2 items-start justify-start"
+              className="hover:text-primary transition-colors duration-300 flex gap-2 items-start justify-start"
             >
               <div className="">
                 <Phone />
@@ -130,7 +130,7 @@ export default function Footer() {
             <Link
               href={"mailto:careful4u@hotmail.com"}
               referrerPolicy="no-referrer"
-              className="hover:text-[#4050f8] transition-colors duration-300 flex gap-2 items-start justify-start"
+              className="hover:text-primary transition-colors duration-300 flex gap-2 items-start justify-start"
             >
               <div className="">
                 <Mail />
@@ -141,18 +141,12 @@ export default function Footer() {
         </motion.div>
       </div>
 
-      <motion.div
-        className="flex justify-end border-t items-center py-3 px-5 md:px-10 bg-blue-50"
-        variants={fadeUpVariant}
-        initial="hidden"
-        whileInView="visible"
-        transition={{ duration: 0.6, delay: 0.5 }}
-      >
+      <motion.div className="flex justify-end items-center pt-3 px-5 md:px-10">
         <span className="text-sm">
           <Link
-            href={"https://divyanshulohani.github.io/"}
+            href={"https://divyanshulohani.xyz/"}
             referrerPolicy="no-referrer"
-            className="hover:text-[#4050f8] transition-colors duration-300"
+            className="hover:text-primary transition-colors duration-300"
           >
             Designed and Developed by Divyanshu Lohani
           </Link>

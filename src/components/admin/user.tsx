@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 
 export function User() {
   return (
@@ -29,6 +30,9 @@ export function User() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+          <DropdownMenuItem>
+            <Link href={"/"}>View Store</Link>
+          </DropdownMenuItem>
           <DropdownMenuItem>
             <button
               onClick={() => {

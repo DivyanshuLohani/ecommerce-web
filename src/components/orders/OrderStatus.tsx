@@ -3,7 +3,7 @@ import { Order } from "@prisma/client";
 import React from "react";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { CheckCircleIcon, PackageCheckIcon, Truck } from "lucide-react";
-import { updateOrderStatus } from "@/lib/admin";
+import { updateOrderStatus } from "@/lib/actions/admin";
 
 export default function OrderStatus({ order }: { order: Order }) {
   return (

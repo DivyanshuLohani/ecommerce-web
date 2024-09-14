@@ -5,7 +5,7 @@ import Link from "next/link";
 import { TagIcon, List, IndianRupeeIcon, Package, Image } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useFormState } from "react-dom";
-import { createProduct } from "@/lib/actions";
+import { createProduct } from "@/lib/actions/product";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";

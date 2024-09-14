@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import useRazorpay from "react-razorpay";
+import { Spinner } from "../ui/spinner";
 
 declare global {
   interface Window {
@@ -52,11 +53,13 @@ export default function Payment({ paymentDetails }: { paymentDetails: any }) {
       rzp.open();
       setRzpOpen(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Razorpay, options, router]);
 
   return (
     <>
       <div>Please do not close this window or press back/refresh</div>
+      <Spinner />
     </>
   );
 }

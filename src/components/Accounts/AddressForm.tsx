@@ -12,10 +12,10 @@ import {
   SelectValue,
 } from "../ui/select";
 import { useFormState } from "react-dom";
-import { addAddress } from "@/lib/actions";
 import type { Address } from "@prisma/client";
+import { addAddress } from "@/lib/actions/addresses";
 
-export default function AddressForm({ address }: { address: Address | null }) {
+export default function AddressForm({ address }: { address?: Address | null }) {
   const session = useSession();
   const [state, dispatch] = useFormState(addAddress, {
     message: "",

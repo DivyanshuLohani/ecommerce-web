@@ -1,4 +1,7 @@
+import { Address } from "@prisma/client";
 import { prisma } from "./prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./auth";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -120,4 +123,15 @@ export async function getRelatedProducts(productId: number, limit: number = 5) {
   });
 
   return relatedProducts;
+}
+
+export async function getAddresses(): Promise<Address[]> {
+  const user = await getServerSession(authOptions);
+  if (!user) return [];
+  const addresses = await prisma.address.findMany({
+    where: {
+      userId: user.user.id,
+    },
+  });
+  return addresses;
 }

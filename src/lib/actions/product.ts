@@ -6,17 +6,12 @@ import {
   CreateProduct,
   EditProduct,
   ProductFormState,
-} from "./validations/product";
-import { prisma } from "./prisma";
-import { Address, ProductStatus } from "@prisma/client";
+} from "../validations/product";
+import { prisma } from "../prisma";
+import { ProductStatus } from "@prisma/client";
 import { v2 as cloudinary } from "cloudinary";
-import { CategoryFormState, CreateCategory } from "./validations/category";
-import { slugify } from "./utils";
-import { AddressState, CreateAddress } from "./validations/address";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./auth";
-import { cookies } from "next/headers";
-import { WholesaleInquirySchema } from "./validations/enquiry";
+import { CategoryFormState, CreateCategory } from "../validations/category";
+import { slugify } from "../utils";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -236,117 +231,4 @@ export async function createCategory(state: CategoryFormState, data: FormData) {
   revalidatePath("/admin/products/create/");
   revalidatePath("/admin/");
   redirect("/admin/products/");
-}
-
-export async function addAddress(state: AddressState, data: FormData) {
-  const existingAddress = await getAddressFromCookie();
-  if (existingAddress) {
-    redirect("/checkout/payment/");
-  }
-  const formData = {
-    name: data.get("name"),
-    phoneNumber: data.get("phone"),
-    email: data.get("email"),
-    address: data.get("address"),
-    address2: data.get("address2") || "", // Provide a default empty string if not provided
-    state: data.get("state"),
-    city: data.get("city"),
-    pincode: data.get("pincode"),
-  };
-  const validatedFormData = CreateAddress.safeParse(formData);
-
-  if (!validatedFormData.success) {
-    return {
-      errors: validatedFormData.error.flatten().fieldErrors,
-      message: "Missing Fields. Failed to Create Category.",
-    };
-  }
-
-  const {
-    name,
-    phoneNumber,
-    email,
-    address,
-    address2,
-    state: st,
-    city,
-    pincode,
-  } = validatedFormData.data;
-
-  const session = await getServerSession(authOptions);
-
-  try {
-    const addressObj = await prisma.address.create({
-      data: {
-        name,
-        phoneNumber,
-        email,
-        userId: session?.user.id,
-        address,
-        address2,
-        state: st,
-        city,
-        pincode,
-      },
-    });
-    // For payment we store the address in the cookies once its done we clear the cookies
-    cookies().set("address", JSON.stringify(addressObj), {
-      expires: new Date().getTime() + 1000 * 60 * 60 * 24 * 15,
-      secure: true,
-      sameSite: true,
-    });
-  } catch (e) {
-    console.log(e);
-    return { message: "Database error" };
-  }
-
-  redirect("/checkout/payment/");
-}
-
-export async function getAddressFromCookie() {
-  const data = cookies().get("address");
-  if (!data) return null;
-  try {
-    const address: Address = JSON.parse(data.value);
-    if (!address.id) return null;
-    return address;
-  } catch {
-    return null;
-  }
-}
-
-export async function sendEnquiry(state: any, data: FormData) {
-  const name = data.get("name") as string;
-  const email = data.get("email") as string;
-  const company = (data.get("company") as string) || "";
-  const phone = data.get("phone") as string;
-  const message = data.get("message") as string;
-  const productId = parseInt((data.get("productId") as string) ?? "Nan");
-
-  const paredData = WholesaleInquirySchema.safeParse({
-    name,
-    email,
-    message,
-    company,
-    phone,
-    productId: Number.isNaN(productId) ? undefined : productId,
-  });
-
-  if (!paredData.success) {
-    console.log(paredData.error);
-    return false;
-  }
-
-  await prisma.wholesaleInquiry.create({
-    data: {
-      name,
-      email,
-      message,
-      phone,
-      companyName: company,
-      productInterest: productId,
-    },
-  });
-
-  return true;
 }

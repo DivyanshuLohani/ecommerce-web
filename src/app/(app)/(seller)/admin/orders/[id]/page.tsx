@@ -2,7 +2,7 @@ import CustomerInfo from "@/components/Accounts/CustomerInfo";
 import OrderItems from "@/components/orders/OrderItems";
 import OrderStatus from "@/components/orders/OrderStatus";
 import { Button } from "@/components/ui/button";
-import { getOrder } from "@/lib/admin";
+import { getOrder } from "@/lib/actions/admin";
 import { getOrderProducts } from "@/lib/payment";
 import { PlusCircle, File, Trash2 } from "lucide-react";
 import Link from "next/link";

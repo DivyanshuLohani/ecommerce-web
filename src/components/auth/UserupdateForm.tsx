@@ -15,7 +15,12 @@ export default function UserupdateForm() {
       </div>
       <div className="input my-2">
         <Label htmlFor="email">Email</Label>
-        <Input id="email" type="email" />
+        <Input
+          id="email"
+          type="email"
+          disabled
+          defaultValue={session?.data?.user.email}
+        />
       </div>
 
       <Button>Save</Button>

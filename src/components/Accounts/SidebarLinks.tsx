@@ -10,8 +10,8 @@ export default function SidebarLinks() {
     <ul className="flex flex-col">
       <Link
         href="/account/profile/"
-        className={`flex items-center gap-4 hover:bg-input pr-5 md:pr-10 pl-5 py-5 rounded ${
-          pathname.startsWith("/account/profile") ? "bg-input" : ""
+        className={`flex items-center gap-4 hover:bg-accent pr-5 md:pr-10 pl-5 transition-colors duration-300 py-5 rounded ${
+          pathname.startsWith("/account/profile") ? "bg-accent" : ""
         }`}
       >
         <User2 />
@@ -19,8 +19,8 @@ export default function SidebarLinks() {
       </Link>
       <Link
         href="/account/addresses/"
-        className={`flex items-center gap-4 hover:bg-input pr-10 pl-5 py-5 rounded ${
-          pathname.startsWith("/account/addresses") ? "bg-input" : ""
+        className={`flex items-center gap-4 hover:bg-accent pr-10 pl-5 py-5 rounded transition-colors duration-300 ${
+          pathname.startsWith("/account/addresses") ? "bg-accent" : ""
         }`}
       >
         <Truck />
@@ -28,8 +28,8 @@ export default function SidebarLinks() {
       </Link>
       <Link
         href="/account/orders/"
-        className={`flex items-center gap-4 hover:bg-input pr-10 pl-5 py-5 rounded ${
-          pathname.startsWith("/account/orders") ? "bg-input" : ""
+        className={`flex items-center gap-4 hover:bg-accent pr-10 pl-5 py-5 rounded transition-colors duration-300 ${
+          pathname.startsWith("/account/orders") ? "bg-accent" : ""
         }`}
       >
         <Package />

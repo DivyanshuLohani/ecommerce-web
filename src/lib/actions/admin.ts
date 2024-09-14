@@ -1,10 +1,10 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { prisma } from "./prisma";
+import { prisma } from "../prisma";
 import { v2 as c } from "cloudinary";
 import { redirect } from "next/navigation";
 import { OrderStatus } from "@prisma/client";
-import { BannerFormState, CreateBanner } from "./validations/banner";
+import { BannerFormState, CreateBanner } from "../validations/banner";
 
 const ITEMS_PER_PAGE = 10;
 

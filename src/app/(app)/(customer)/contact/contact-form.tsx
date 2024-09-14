@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { useEffect } from "react";
 import { useFormState } from "react-dom";
-import { sendEnquiry } from "@/lib/actions";
+import { sendEnquiry } from "@/lib/actions/enquiry";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter, useSearchParams } from "next/navigation";
 

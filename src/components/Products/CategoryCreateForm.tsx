@@ -1,14 +1,12 @@
 "use client";
 
-import type { Category } from "@prisma/client";
 import Link from "next/link";
-import { TagIcon, List, IndianRupeeIcon, Package, Image } from "lucide-react";
+import { TagIcon, Image } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useFormState } from "react-dom";
-import { createCategory, createProduct } from "@/lib/actions";
+import { createCategory } from "@/lib/actions/product";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
 import { useState } from "react";
 
 export default function Form() {

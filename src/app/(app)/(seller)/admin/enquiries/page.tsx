@@ -9,7 +9,7 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
-import { getEnquiries } from "@/lib/admin";
+import { getEnquiries } from "@/lib/actions/admin";
 import Paginator from "@/components/ui/paginator";
 
 export default async function Page({

@@ -1,9 +1,9 @@
 import CartSummary from "@/components/Checkout/CartSummary";
 import { Button } from "@/components/ui/button";
-import { getAddressFromCookie } from "@/lib/actions";
 import AddressDisplay from "@/components/Checkout/AddressDisplay";
 import { redirect } from "next/navigation";
 import { placeOrder } from "@/lib/payment";
+import { getAddressFromCookie } from "@/lib/actions/addresses";
 
 export default async function page() {
   const address = await getAddressFromCookie();

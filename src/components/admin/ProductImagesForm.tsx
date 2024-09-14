@@ -1,5 +1,5 @@
 "use client";
-import { createProductImage } from "@/lib/admin";
+import { createProductImage } from "@/lib/actions/admin";
 import React, { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { Input } from "../ui/input";
