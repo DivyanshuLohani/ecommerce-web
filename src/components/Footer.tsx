@@ -23,7 +23,7 @@ export default function Footer() {
           <h4 className="text-lg font-semibold mb-5 uppercase">About Us</h4>
           <p>
             Maa Kali Griha Udyog stands as a symbol of quality and tradition in
-            the fragrance industry. Our store offers a wide selection of
+            the Agarbatti and Dhoop Industry. Our store offers a wide selection of
             handpicked products and accessories designed to meet your prayer,
             personal care, air care, and lifestyle needs.
           </p>
