@@ -24,7 +24,7 @@ const TermsAndConditions = () => {
           provisions of Rule 3 (1) of the Information Technology (Intermediaries
           guidelines) Rules, 2011 that require publishing the rules and
           regulations, privacy policy, and Terms of Use for access or usage of
-          domain name [Enter domain name] (“Website”), including the related
+          domain name https://maakalidhoop.in/ (“Website”), including the related
           mobile site and mobile application (hereinafter referred to as
           “Platform”).
         </p>
