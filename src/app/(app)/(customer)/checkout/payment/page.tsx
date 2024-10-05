@@ -1,8 +1,6 @@
 import CartSummary from "@/components/Checkout/CartSummary";
-import { Button } from "@/components/ui/button";
 import AddressDisplay from "@/components/Checkout/AddressDisplay";
 import { redirect } from "next/navigation";
-import { placeOrder } from "@/lib/payment";
 import { getAddressFromCookie } from "@/lib/actions/addresses";
 import PlaceOrderButton from "./place-order";
 import Image from "next/image";

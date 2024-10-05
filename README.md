@@ -1,6 +1,6 @@
 # Maa Kali Griha Udyog E-commerce Website
 
-This is the repository for Maa Kali Griha Udyog's e-commerce website, built using **Next.js** as the frontend framework, with **PostgreSQL** as the database, **Tailwind CSS** for styling, and **Framer Motion** for animations. The website supports online payments through **Razorpay** and media uploads via **Cloudinary**.
+This is the repository for Maa Kali Griha Udyog's e-commerce website, built using **Next.js** as the frontend framework, with **PostgreSQL** as the database, **Tailwind CSS** for styling, and **Framer Motion** for animations. The website supports online payments through **PhonePe** and media uploads via **Cloudinary**.
 
 ## Table of Contents
 
@@ -23,7 +23,7 @@ This is the repository for Maa Kali Griha Udyog's e-commerce website, built usin
 - **Animations**: [Framer Motion](https://www.framer.com/motion/)
 - **Authentication**: [NextAuth.js](https://next-auth.js.org/)
 - **File Storage**: [Cloudinary](https://cloudinary.com/)
-- **Payments**: [Razorpay](https://razorpay.com/)
+- **Payments**: [PhonePe](https://Phonepe.com/)
 
 ## Getting Started
 
@@ -54,39 +54,18 @@ Make sure you have the following installed:
 
    Ensure PostgreSQL is installed and running. Create a new database for the project and update the `.env` file with your database credentials.
 
-   ```sql
-   CREATE DATABASE your_database_name;
-   ```
-
 4. **Set up environment variables:**
 
-   Create a `.env.local` file in the root of the project, using the following template:
+   Create a `.env.local` file in the root of the project, by copying the .env.example file and fill all the details
 
-   ```env
-   DATABASE_URL="your_postgresql_connection_string"
 
-   # Cloudinary
-   CLOUDINARY_API_SECRET="your_cloudinary_secret"
-   CLOUDINARY_API_KEY="your_cloudinary_api_key"
-   CLOUDINARY_CLOUD_NAME="your_cloudinary_cloud_name"
+### Running Migrations
 
-   # NextAuth
-   NEXTAUTH_SECRET="your_nextauth_secret"
-   NEXTAUTH_URL="http://localhost:3000"
+If there are any database migrations, you can apply them by running:
 
-   # Razorpay
-   NEXT_PUBLIC_RAZORPAY_ID="your_razorpay_id"
-   RAZORPAY_SECRET="your_razorpay_secret"
-   ```
-
-## Environment Variables
-
-The application requires the following environment variables, which should be defined in the `.env.local` file:
-
-- **`DATABASE_URL`**: Connection string for the PostgreSQL database.
-- **`CLOUDINARY_API_SECRET`**, **`CLOUDINARY_API_KEY`**, **`CLOUDINARY_CLOUD_NAME`**: Credentials for uploading media files to Cloudinary.
-- **`NEXTAUTH_SECRET`**, **`NEXTAUTH_URL`**: Configuration for NextAuth.js for handling authentication.
-- **`NEXT_PUBLIC_RAZORPAY_ID`**, **`RAZORPAY_SECRET`**: Razorpay credentials for processing payments.
+```bash
+npx prisma migrate dev
+```
 
 ### Running the Project
 
@@ -98,13 +77,6 @@ npm run dev
 
 The application will be running at `http://localhost:3000`.
 
-### Running Migrations
-
-If there are any database migrations, you can apply them by running:
-
-```bash
-npx prisma migrate dev
-```
 
 ### Deployment
 

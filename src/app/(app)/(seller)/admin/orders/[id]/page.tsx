@@ -4,10 +4,9 @@ import OrderStatus from "@/components/orders/OrderStatus";
 import { Button } from "@/components/ui/button";
 import { getOrder } from "@/lib/actions/admin";
 import { getOrderProducts } from "@/lib/payment";
-import { PlusCircle, File, Trash2 } from "lucide-react";
+import { File, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import React from "react";
 
 export default async function Page({
   params,

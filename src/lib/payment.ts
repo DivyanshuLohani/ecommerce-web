@@ -5,14 +5,11 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "./auth";
 import { getAddressFromCookie } from "./actions/addresses";
 import { redirect } from "next/navigation";
-import RazorPay from "razorpay";
-import { validatePaymentVerification } from "razorpay/dist/utils/razorpay-utils";
 import { cookies } from "next/headers";
 import { OrderStatus } from "@prisma/client";
 import { createTransaction } from "./payments/phonepe";
 
-// This function generate the order then also generates the payment information for
-// Razor pay to return the data to client
+// This function generate the order then also generates the payment information
 export async function placeOrder(): Promise<{
   success: boolean;
   message: string;
