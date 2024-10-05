@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -14,26 +15,45 @@ export default async function page({ params }: { params: { id: string } }) {
   if (!order) notFound();
   const orderProducts = await getOrderProducts(order.id);
   return (
-    <Card className="max-w-4xl mx-auto p-8 bg-white shadow-md rounded-lg">
+    <Card className="max-w-4xl mx-auto shadow-md rounded-lg my-10">
       <CardHeader className="text-3xl font-bold mb-6 border-b pb-3">
         Order Details
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="space-y-3">
         <h2 className="text-2xl font-semibold mb-2">Order Information</h2>
-        <div className="bg-gray-100 p-4 rounded-md">
+        <div className="bg-background p-4 rounded-md space-y-4">
           <p className="mb-2">
             <strong>Date:</strong>{" "}
             {new Date(order.createdAt).toLocaleDateString()}
           </p>
           <p>
-            <strong>Status:</strong> {order.status}
+            <strong>Order Status:</strong>{" "}
+            <Badge
+              variant={order.status !== "PENDING" ? "success" : "destructive"}
+            >
+              {order.status}
+            </Badge>
           </p>
+          {order.payment && (
+            <p>
+              <strong>Payment Status:</strong>{" "}
+              <Badge
+                variant={
+                  order.payment.status !== "COMPLETED"
+                    ? "destructive"
+                    : "success"
+                }
+              >
+                {order.payment.status}
+              </Badge>
+            </p>
+          )}
         </div>
 
         <div className="mb-6">
           <h2 className="text-2xl font-semibold mb-2">Shipping Address</h2>
-          <div className="bg-gray-100 p-4 rounded-md">
+          <div className="bg-background p-4 rounded-md">
             <strong>{order.address?.name}</strong>
             <p>{order.address?.address}</p>
             {order.address?.address2 && <p>{order.address?.address2}</p>}
@@ -46,7 +66,7 @@ export default async function page({ params }: { params: { id: string } }) {
 
         <div className="mb-6">
           <h2 className="text-2xl font-semibold mb-2">Items</h2>
-          <ul className="bg-gray-100 p-4 rounded-md">
+          <ul className="bg-background p-4 rounded-md">
             {orderProducts.map((item) => (
               <li key={item.id} className="flex justify-between py-3 border-b">
                 <div>
@@ -64,7 +84,8 @@ export default async function page({ params }: { params: { id: string } }) {
         </div>
       </CardContent>
 
-      <CardFooter className="text-right w-full flex justify-end">
+      <CardFooter className="w-full flex justify-between items-end md:flex-row flex-col">
+        <p>Save this url to view the order details in future</p>
         <p className="text-xl font-bold">
           Total: ₹{formatCurrency(order.total)}
         </p>
