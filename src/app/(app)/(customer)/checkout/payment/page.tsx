@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { placeOrder } from "@/lib/payment";
 import { getAddressFromCookie } from "@/lib/actions/addresses";
 import PlaceOrderButton from "./place-order";
+import Image from "next/image";
 
 export default async function page() {
   const address = await getAddressFromCookie();
@@ -23,6 +24,15 @@ export default async function page() {
           </div>
         </div>
         <PlaceOrderButton />
+        <div className="flex w-full items-center gap-2 justify-center mt-6">
+          <span>Secured Payments with </span>
+          <Image
+            height={50}
+            width={120}
+            src={"/phonepe.svg"}
+            alt="Phonepe Logo"
+          />
+        </div>
       </div>
     </div>
   );
