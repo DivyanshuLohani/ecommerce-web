@@ -76,6 +76,7 @@ export async function getOrders(
         },
         include: {
           address: true,
+          payment: true,
         },
         skip: offset,
         take: itemsPerPage,

@@ -23,18 +23,19 @@ export default async function OrdersPage({
     await getOrders(parseInt(searchParams.page ?? "1"), "SHIPPED");
   const { orders: deliveredOrders, totalOrders: totalDeliveredOrders } =
     await getOrders(parseInt(searchParams.page ?? "1"), "DELIVERED");
+  const { orders: canceledOrders, totalOrders: totalCanceledOrders } =
+    await getOrders(parseInt(searchParams.page ?? "1"), "CANCELLED");
 
   return (
     <Tabs defaultValue="pending">
       <div className="flex items-center">
-        <TabsList>
+        <TabsList className="flex flex-wrap">
           <TabsTrigger value="pending">Incoming</TabsTrigger>
           <TabsTrigger value="accepted">Accepted</TabsTrigger>
           <TabsTrigger value="shipped">Shipped</TabsTrigger>
           <TabsTrigger value="delivered">Delivered</TabsTrigger>
-          <TabsTrigger value="canceled" className="hidden sm:flex">
-            Canceled
-          </TabsTrigger>
+          <TabsTrigger value="canceled">Canceled</TabsTrigger>
+          <TabsTrigger value="all">All</TabsTrigger>
         </TabsList>
         <div className="ml-auto flex items-center gap-2">
           <ExportOrders
@@ -75,6 +76,34 @@ export default async function OrdersPage({
             <OrdersTable
               totalOrders={totalDeliveredOrders}
               orders={deliveredOrders}
+            />
+          </TabsContent>
+          <TabsContent value="canceled">
+            <OrdersTable
+              totalOrders={totalCanceledOrders}
+              orders={canceledOrders}
+            />
+          </TabsContent>
+          <TabsContent value="all">
+            <OrdersTable
+              totalOrders={
+                totalCanceledOrders +
+                totalDeliveredOrders +
+                totalshipppedOrders +
+                totalActiveOrders +
+                totalPendingOrders
+              }
+              orders={[
+                ...activeOrders,
+                ...shippedOrders,
+                ...deliveredOrders,
+                ...canceledOrders,
+                ...pendingOrders,
+              ].sort(
+                (a, b) =>
+                  new Date(b.createdAt).getTime() -
+                  new Date(a.createdAt).getTime()
+              )}
             />
           </TabsContent>
         </CardContent>

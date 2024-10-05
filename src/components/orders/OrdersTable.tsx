@@ -13,12 +13,13 @@ import {
   TableHead,
   TableBody,
 } from "../ui/table";
-import type { Address, Order } from "@prisma/client";
+import type { Address, Order, Payment } from "@prisma/client";
 import OrderTableItem from "../orders/OrderTableItem";
 import Paginator from "../ui/paginator";
 
 interface IOrder extends Order {
   address: Address | null;
+  payment: Payment | null;
 }
 
 export default function OrdersTable({
@@ -40,6 +41,7 @@ export default function OrdersTable({
             <TableRow>
               <TableHead>Name</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Payment Status</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Total Price</TableHead>
               <TableHead>

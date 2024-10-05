@@ -10,23 +10,33 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import { TableCell, TableRow } from "@/components/ui/table";
-import type { Address, Order } from "@prisma/client";
+import type { Address, Order, Payment } from "@prisma/client";
 import { formatCurrency } from "@/lib/utils";
 import Link from "next/link";
 
 interface IOrder extends Order {
   address: Address | null;
+  payment: Payment | null;
 }
 
 export default function OrterTableItem({ order }: { order: IOrder }) {
   return (
     <TableRow>
-      <TableCell className="hidden sm:table-cell">
+      <TableCell className="sm:table-cell">
         <Link href={`/admin/orders/${order.id}/`}>{order.address?.name}</Link>
       </TableCell>
       <TableCell>
-        <Badge variant="outline" className="capitalize">
+        <Badge variant={order.status !== "PENDING" ? "success" : "destructive"}>
           {order.status}
+        </Badge>
+      </TableCell>
+      <TableCell>
+        <Badge
+          variant={
+            order.payment?.status !== "COMPLETED" ? "destructive" : "success"
+          }
+        >
+          {order.payment?.status}
         </Badge>
       </TableCell>
       <TableCell className="hidden md:table-cell">

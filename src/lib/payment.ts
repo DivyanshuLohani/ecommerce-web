@@ -94,7 +94,7 @@ export async function paymentFailure(id: string, code: string) {
       id: payment.orderId,
     },
     data: {
-      status: "PENDING",
+      status: "CANCELLED",
     },
   });
 }
