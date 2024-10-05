@@ -47,8 +47,7 @@ export async function createTransaction(
 
   const checksum = await generateChecksum(payload);
   // const PAY_API_URL = "https://api.phonepe.com/apis/hermes/pg/v1/pay";
-  const PAY_API_URL =
-    "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay";
+  const PAY_API_URL = process.env.PHONE_PE_URL as string;
 
   try {
     const response = await axios.post(
