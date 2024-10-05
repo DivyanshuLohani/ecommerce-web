@@ -4,6 +4,7 @@ import AddressDisplay from "@/components/Checkout/AddressDisplay";
 import { redirect } from "next/navigation";
 import { placeOrder } from "@/lib/payment";
 import { getAddressFromCookie } from "@/lib/actions/addresses";
+import PlaceOrderButton from "./place-order";
 
 export default async function page() {
   const address = await getAddressFromCookie();
@@ -21,9 +22,7 @@ export default async function page() {
             <AddressDisplay address={address} />
           </div>
         </div>
-        <form action={placeOrder}>
-          <Button className="w-full mt-5">Place Order</Button>
-        </form>
+        <PlaceOrderButton />
       </div>
     </div>
   );

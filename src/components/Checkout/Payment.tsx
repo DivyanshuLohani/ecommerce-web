@@ -21,11 +21,6 @@ export default function Payment({ paymentDetails }: { paymentDetails: any }) {
   const options = {
     ...paymentDetails,
     handler: async function (response: any) {
-      await paymentSuccess(
-        response.razorpay_order_id,
-        response.razorpay_payment_id,
-        response.razorpay_signature
-      );
       clear();
       router.replace(`/orders/${paymentDetails.order_id}`);
     },
