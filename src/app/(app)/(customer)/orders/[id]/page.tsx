@@ -27,16 +27,16 @@ export default async function page({ params }: { params: { id: string } }) {
             <strong>Date:</strong>{" "}
             {new Date(order.createdAt).toLocaleDateString()}
           </p>
-          <p>
+          <div>
             <strong>Order Status:</strong>{" "}
             <Badge
               variant={order.status !== "PENDING" ? "success" : "destructive"}
             >
               {order.status}
             </Badge>
-          </p>
+          </div>
           {order.payment && (
-            <p>
+            <>
               <strong>Payment Status:</strong>{" "}
               <Badge
                 variant={
@@ -47,7 +47,7 @@ export default async function page({ params }: { params: { id: string } }) {
               >
                 {order.payment.status}
               </Badge>
-            </p>
+            </>
           )}
         </div>
 
