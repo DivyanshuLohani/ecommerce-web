@@ -65,7 +65,11 @@ export default function CheckoutForm({ addresses }: CheckoutFormProps) {
             }
             setLoading(false);
           }}
-          disabled={cartTotal < TOTAL_CART_VALUE_TO_CHECKOUT || loading}
+          disabled={
+            cartTotal < TOTAL_CART_VALUE_TO_CHECKOUT ||
+            loading ||
+            !selectedAddress
+          }
         >
           Proceed
         </Button>

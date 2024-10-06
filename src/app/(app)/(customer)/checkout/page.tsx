@@ -1,5 +1,6 @@
 import CartSummary from "@/components/Checkout/CartSummary";
 import CheckoutForm from "@/components/Checkout/CheckoutForm";
+import ProgressIndicator from "@/components/ui/progress-indicator";
 import { getAddressFromCookie } from "@/lib/actions/addresses";
 import { getAddresses } from "@/lib/data";
 
@@ -13,7 +14,8 @@ export default async function page() {
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold mb-6 text-center">Checkout</h1>
-        <div className="flex flex-col md:flex-row justify-between md:gap-5">
+        <ProgressIndicator currentIndex={2} />
+        <div className="flex flex-col md:flex-row justify-between md:gap-5 mt-4">
           <div className="md:w-1/2">
             <h2 className="text-xl font-semibold mb-4">
               Billing Information & Shipping Address
