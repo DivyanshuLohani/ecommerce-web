@@ -102,23 +102,25 @@ export default async function ProductPage({
       <div className="bg-background p-6 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold mb-4">Product Reviews</h2>
         <div className="flex flex-col space-y-2 mb-2">
-          <div className="flex gap-2 items-baseline">
-            {[...Array(Math.round(averageRating))].map((_, i) => (
-              <StarIcon
-                key={i}
-                className="fill-primary stroke-primary"
-                size={30}
-              />
-            ))}
-            {[...Array(5 - Math.round(averageRating))].map((_, i) => (
-              <StarIcon
-                key={i}
-                className=" stroke-muted-foreground"
-                size={30}
-              />
-            ))}
-            <span> {averageRating.toFixed(2)} stars out of 5</span>
-          </div>
+          {averageRating > 0 && (
+            <div className="flex gap-2 items-baseline">
+              {[...Array(Math.round(averageRating))].map((_, i) => (
+                <StarIcon
+                  key={i}
+                  className="fill-primary stroke-primary"
+                  size={30}
+                />
+              ))}
+              {[...Array(5 - Math.round(averageRating))].map((_, i) => (
+                <StarIcon
+                  key={i}
+                  className=" stroke-muted-foreground"
+                  size={30}
+                />
+              ))}
+              <span> {averageRating.toFixed(2)} stars out of 5</span>
+            </div>
+          )}
         </div>
         {session ? (
           <StarRating productId={product.id} />
