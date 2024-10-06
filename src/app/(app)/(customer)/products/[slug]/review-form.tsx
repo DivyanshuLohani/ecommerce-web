@@ -61,7 +61,7 @@ const StarRating = ({ productId }: { productId: number }) => {
             id="feedback"
             name="review"
             rows={4}
-            value={feedback}
+            defaultValue={feedback}
             onChange={(e) => setFeedback(e.target.value)}
             placeholder="Write your feedback here..."
           />
@@ -70,10 +70,15 @@ const StarRating = ({ productId }: { productId: number }) => {
         <input
           type="text"
           className="hidden"
-          value={productId}
+          defaultValue={productId}
           name="productId"
         />
-        <input type="text" className="hidden" value={rating} name="rating" />
+        <input
+          type="text"
+          className="hidden"
+          defaultValue={rating}
+          name="rating"
+        />
 
         <Button type="submit" size="lg">
           Submit
