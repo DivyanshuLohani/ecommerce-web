@@ -8,16 +8,17 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  name      String
-  email     String     @unique
-  password  String
-  orders    Order[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  addresses Address[]
-  isAdmin   Boolean    @default(false)
-  CartItem  CartItem[]
+  id            Int             @id @default(autoincrement())
+  name          String
+  email         String          @unique
+  password      String
+  orders        Order[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  addresses     Address[]
+  isAdmin       Boolean         @default(false)
+  CartItem      CartItem[]
+  ProductReview ProductReview[]
 }
 
 model Product {
@@ -40,6 +41,7 @@ model Product {
   featured          Boolean             @default(false)
   AnonymousCartItem AnonymousCartItem[]
   WholesaleInquiry  WholesaleInquiry[]
+  ProductReview     ProductReview[]
 }
 
 model ProductImages {
@@ -171,4 +173,15 @@ model WholesaleInquiry {
   product         Product? @relation(fields: [productInterest], references: [id])
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+}
+
+model ProductReview {
+  id        Int      @id @default(autoincrement())
+  content   String
+  rating    Int
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now())
 }

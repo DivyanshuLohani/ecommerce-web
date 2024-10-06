@@ -6,6 +6,7 @@ import {
   fetchProduct,
   fetchProductWithSlug,
   getRelatedProducts,
+  getReviews,
 } from "@/lib/data";
 import ProductDescription from "@/components/Products/ProductDescription";
 import { Separator } from "@radix-ui/react-select";
@@ -14,13 +15,14 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import ProductCard from "@/components/Products/productCard";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import BulkOrders from "./bulk-orders";
+import { StarIcon } from "lucide-react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import StarRating from "./review-form";
+import ProductReview from "./product-review";
 
 export async function generateMetadata({
   params,
@@ -58,6 +60,11 @@ export default async function ProductPage({
   const product = await fetchProductWithSlug(params.slug);
   if (!product) return notFound();
   const relatedProducts = await getRelatedProducts(product.id);
+  const productReviews = await getReviews(product.id);
+  const averageRating =
+    productReviews.reduce((acc, review) => acc + review.rating, 0) /
+    productReviews.length;
+  const session = await getServerSession(authOptions);
 
   return (
     <div className="mx-auto max-w-screen-2xl px-4">
@@ -85,12 +92,47 @@ export default async function ProductPage({
         </div>
 
         <div className="basis-full lg:basis-2/6 space-y-10 w-full">
-          <ProductDescription product={product} />
+          <ProductDescription product={product} reviews={productReviews} />
 
           <Separator className="my-12" />
           <BulkOrders productId={product.id} />
         </div>
       </div>
+
+      <div className="bg-background p-6 rounded-lg shadow-lg">
+        <h2 className="text-2xl font-bold mb-4">Product Reviews</h2>
+        <div className="flex flex-col space-y-2 mb-2">
+          <div className="flex gap-2 items-baseline">
+            {[...Array(Math.round(averageRating))].map((_, i) => (
+              <StarIcon
+                key={i}
+                className="fill-primary stroke-primary"
+                size={30}
+              />
+            ))}
+            {[...Array(5 - Math.round(averageRating))].map((_, i) => (
+              <StarIcon
+                key={i}
+                className=" stroke-muted-foreground"
+                size={30}
+              />
+            ))}
+            <span> {averageRating.toFixed(2)} stars out of 5</span>
+          </div>
+        </div>
+        {session ? (
+          <StarRating productId={product.id} />
+        ) : (
+          <div>You must be logged in to write a review</div>
+        )}
+        <Separator className="my-6" />
+        <div className="grid gap-6">
+          {productReviews.map((review) => (
+            <ProductReview key={review.id} review={review} />
+          ))}
+        </div>
+      </div>
+      <Separator className="my-12" />
       <RelatedProducts products={relatedProducts} />
     </div>
   );

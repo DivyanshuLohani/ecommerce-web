@@ -1,4 +1,4 @@
-import { Address } from "@prisma/client";
+import { Address, ProductReview } from "@prisma/client";
 import { prisma } from "./prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./auth";
@@ -134,4 +134,14 @@ export async function getAddresses(): Promise<Address[]> {
     },
   });
   return addresses;
+}
+
+export async function getReviews(productId: number) {
+  return await prisma.productReview.findMany({
+    where: { productId },
+    include: { user: true },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 }

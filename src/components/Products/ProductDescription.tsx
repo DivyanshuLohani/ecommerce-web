@@ -1,21 +1,29 @@
 "use client";
 import { Separator } from "@/components/ui/separator";
-import { Product } from "@prisma/client";
+import type { Product, ProductReview } from "@prisma/client";
 import { discountPercent, formatCurrency } from "@/lib/utils";
 import AddToCart from "../Cart/AddToCart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { motion } from "framer-motion"; // Import Framer Motion
+import { StarIcon } from "lucide-react";
 
 interface ProductDetailsProps {
   product: Product;
+  reviews: ProductReview[];
 }
 
-export default function ProductDetails({ product }: ProductDetailsProps) {
+export default function ProductDetails({
+  product,
+  reviews,
+}: ProductDetailsProps) {
   // Animation variants for fading in elements
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
   };
+  const averageRating =
+    reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length;
+  const stars = Math.round(averageRating);
 
   return (
     <div className="space-y-6">
@@ -29,9 +37,36 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
         {product.name}
       </motion.h1>
 
-      <div className="flex items-center space-x-2">
-        {/* Ratings placeholder, uncomment and add animation if needed */}
-      </div>
+      {reviews.length > 0 && (
+        <motion.div
+          variants={fadeInUp}
+          initial="initial"
+          animate="animate"
+          transition={{ duration: 0.5 }}
+          className="flex items-center space-x-2 justify-between"
+        >
+          {/* Ratings placeholder, uncomment and add animation if needed */}
+          <motion.div
+            className="flex gap-2"
+            transition={{ staggerChildren: 0.3 }}
+          >
+            {[...Array(stars)].map((_, i) => (
+              <motion.i key={i}>
+                <StarIcon className="w-5 h-5 fill-primary stroke-primary" />
+              </motion.i>
+            ))}
+            {[...Array(5 - stars)].map((_, i) => (
+              <motion.i key={i}>
+                <StarIcon className="w-5 h-5 stroke-muted-foreground" />
+              </motion.i>
+            ))}
+          </motion.div>
+
+          <motion.span className="text-sm text-muted-foreground">
+            {reviews.length} reviews
+          </motion.span>
+        </motion.div>
+      )}
 
       <motion.div
         className="flex gap-2 flex-col"
