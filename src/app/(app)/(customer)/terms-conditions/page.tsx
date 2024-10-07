@@ -1,3 +1,4 @@
+import { TOTAL_CART_VALUE_TO_CHECKOUT } from "@/components/Checkout/CheckoutForm";
 import ContactDetails from "@/components/ContactDetails";
 import Link from "next/link";
 import React from "react";
@@ -24,8 +25,8 @@ const TermsAndConditions = () => {
           provisions of Rule 3 (1) of the Information Technology (Intermediaries
           guidelines) Rules, 2011 that require publishing the rules and
           regulations, privacy policy, and Terms of Use for access or usage of
-          domain name https://maakalidhoop.in/ (“Website”), including the related
-          mobile site and mobile application (hereinafter referred to as
+          domain name https://maakalidhoop.in/ (“Website”), including the
+          related mobile site and mobile application (hereinafter referred to as
           “Platform”).
         </p>
         {/* C - Platform Ownership */}
@@ -133,7 +134,8 @@ const TermsAndConditions = () => {
         {/* Minimum Order Value */}
         <h2 className="text-xl font-semibold mb-4">Minimum Order Value</h2>
         <p className="mb-6">
-          Orders must meet a minimum value of ₹499/- to be processed.
+          Orders must meet a minimum value of ₹
+          {Math.round(TOTAL_CART_VALUE_TO_CHECKOUT / 100)}/- to be processed.
         </p>
         {/* Order Acceptance */}
         <h2 className="text-xl font-semibold mb-4">

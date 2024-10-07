@@ -9,7 +9,8 @@ import { Button } from "../ui/button";
 import { selectedAddressCheckout } from "@/lib/actions/addresses";
 import { useCart } from "@/context/CartProvider";
 
-export const TOTAL_CART_VALUE_TO_CHECKOUT = 49900;
+export const TOTAL_CART_VALUE_TO_CHECKOUT =
+  Number(process.env.MIN_ORDER_VALUE as string) || 49900;
 
 interface CheckoutFormProps {
   addresses: Address[];
