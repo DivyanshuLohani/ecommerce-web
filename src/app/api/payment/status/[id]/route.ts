@@ -20,8 +20,8 @@ export async function POST(request: NextRequest) {
       where: { paymentId: phonePayJson.transactionId as string },
     });
     if (!payment) redirect("/checkout");
-    const checksum = phonePayJson.checksum;
-    if (checksum != payment.checksum) {
+    // const checksum = phonePayJson.checksum;
+    if (payment.amount != Number(phonePayJson.amount)) {
       paymentFailure(phonePayJson.transactionId as string, "INVALID_CHECKSUM");
     } else {
       await paymentSuccess(phonePayJson.transactionId as string);
