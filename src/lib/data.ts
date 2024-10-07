@@ -89,6 +89,9 @@ export async function getFeaturedProducts() {
     where: {
       featured: true,
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 }
 
