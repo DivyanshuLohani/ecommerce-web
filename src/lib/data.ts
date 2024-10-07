@@ -41,7 +41,7 @@ export async function fetchProducts(
       prisma.product.findMany({
         where: whereClause,
         orderBy: {
-          createdAt: "asc",
+          createdAt: "desc",
         },
         skip: offset,
         take: perPage,
