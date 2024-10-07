@@ -76,14 +76,16 @@ export async function addAddress(state: AddressState, data: FormData) {
 // Checkout using pre saved address
 export async function selectedAddressCheckout(addessId: number) {
   const session = await getServerSession(authOptions);
-  if (!session) return null;
-
   const address = await prisma.address.findUnique({
     where: {
       id: addessId,
     },
   });
-  if (!address || address.userId != session.user.id) return null;
+  if (
+    !address ||
+    (address.userId && address.userId != (session && session.user.id))
+  )
+    return null;
   cookies().set("address", JSON.stringify(address), {
     expires: new Date().getTime() + 1000 * 60,
     secure: true,
