@@ -40,7 +40,11 @@ async function generateChecksum(payload: any) {
 
 export async function createTransaction(
   total: number
-): Promise<{ redirectUrl: string; transactionid: string } | null> {
+): Promise<{
+  redirectUrl: string;
+  transactionid: string;
+  checksum: string;
+} | null> {
   const payload = generatePayload(total);
   const dataPayload = JSON.stringify(payload);
   const dataBase64 = Buffer.from(dataPayload).toString("base64");
@@ -68,6 +72,7 @@ export async function createTransaction(
     return {
       redirectUrl,
       transactionid: payload.merchantTransactionId,
+      checksum,
     };
   } catch (e) {
     console.log(e);

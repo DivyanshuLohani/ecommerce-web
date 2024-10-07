@@ -16,14 +16,16 @@ export async function POST(request: NextRequest) {
     );
   } else {
     // Payment Successful
-    const payment = (await prisma.payment.findUnique({
+    const payment = await prisma.payment.findUnique({
       where: { paymentId: phonePayJson.transactionId as string },
-    })) as Payment;
-    const amount = payment.amount;
-    if (phonePayJson.amount !== amount.toString()) {
-      paymentFailure(phonePayJson.transactionId as string, "INVALID_AMOUNT");
+    });
+    if (!payment) redirect("/checkout");
+    const checksum = phonePayJson.checksum;
+    if (checksum != payment.checksum) {
+      paymentFailure(phonePayJson.transactionId as string, "INVALID_CHECKSUM");
+    } else {
+      await paymentSuccess(phonePayJson.transactionId as string);
     }
-    await paymentSuccess(phonePayJson.transactionId as string);
   }
   return redirect(`/orders/${phonePayJson.transactionId}`);
 }

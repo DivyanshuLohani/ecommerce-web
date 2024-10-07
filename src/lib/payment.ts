@@ -70,6 +70,7 @@ export async function placeOrder(): Promise<{
       paymentId: phonepeOrder.transactionid,
       status: "PENDING",
       amount: total,
+      checksum: phonepeOrder.checksum,
     },
   });
   return {

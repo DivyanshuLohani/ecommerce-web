@@ -94,7 +94,7 @@ model Payment {
   paymentId String        @unique
   status    PaymentStatus
   amount    Int
-  currency  String        @default("₹")
+  checksum  String        @default("")
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
 }
