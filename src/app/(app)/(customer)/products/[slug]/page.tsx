@@ -27,9 +27,9 @@ import ProductReview from "./product-review";
 export async function generateMetadata({
   params,
 }: {
-  params: { handle: string };
+  params: { slug: string };
 }): Promise<Metadata> {
-  const product = await fetchProduct(3);
+  const product = await fetchProductWithSlug(params.slug);
 
   if (!product) return notFound();
 
