@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import Gallery from "@/components/Gallery";
 import { Suspense } from "react";
 import {
-  fetchProduct,
   fetchProductWithSlug,
   getRelatedProducts,
   getReviews,

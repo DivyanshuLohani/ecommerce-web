@@ -54,15 +54,15 @@ export async function fetchProducts(
   }
 }
 
-export async function fetchProduct(id: number) {
+export async function fetchProduct(id: number, status?: "ACTIVE" | "DISABLED") {
   return await prisma.product.findFirst({
-    where: { id },
+    where: { id, status },
   });
 }
 
 export async function fetchProductWithSlug(slug: string) {
   return await prisma.product.findFirst({
-    where: { slug },
+    where: { slug, status: "ACTIVE" },
     include: {
       images: true,
     },
