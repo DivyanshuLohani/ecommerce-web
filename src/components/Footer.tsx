@@ -57,6 +57,12 @@ export default function Footer() {
           <h4 className="text-lg font-semibold mb-5 uppercase">Quick Links</h4>
           <ul>
             <Link
+              href={"/home"}
+              className="hover:text-primary transition-colors duration-300"
+            >
+              <li>Home</li>
+            </Link>
+            <Link
               href={"/faq"}
               className="hover:text-primary transition-colors duration-300"
             >
