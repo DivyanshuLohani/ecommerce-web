@@ -9,7 +9,8 @@ import { Button } from "../ui/button";
 import { selectedAddressCheckout } from "@/lib/actions/addresses";
 import { useCart } from "@/context/CartProvider";
 
-export const TOTAL_CART_VALUE_TO_CHECKOUT = 100;
+const MIN_ORDER_VALUE =
+  Number(process.env.NEXT_PUBLIC_MIN_ORDER_VALUE as string) || 49900;
 
 interface CheckoutFormProps {
   addresses: Address[];
@@ -34,7 +35,7 @@ export default function CheckoutForm({ addresses }: CheckoutFormProps) {
             <RadioGroupItem
               value={address.id.toString()}
               id={address.id.toString()}
-              disabled={cartTotal < TOTAL_CART_VALUE_TO_CHECKOUT}
+              disabled={cartTotal < MIN_ORDER_VALUE}
             />
             <Label htmlFor={address.id.toString()}>
               <AddressDisplay address={address} />
@@ -45,7 +46,7 @@ export default function CheckoutForm({ addresses }: CheckoutFormProps) {
           <RadioGroupItem
             value={"new"}
             id={"new"}
-            disabled={cartTotal < TOTAL_CART_VALUE_TO_CHECKOUT}
+            disabled={cartTotal < MIN_ORDER_VALUE}
           />
           <Label htmlFor={"new"} className=" border p-4">
             Add a new Address
@@ -65,11 +66,7 @@ export default function CheckoutForm({ addresses }: CheckoutFormProps) {
             }
             setLoading(false);
           }}
-          disabled={
-            cartTotal < TOTAL_CART_VALUE_TO_CHECKOUT ||
-            loading ||
-            !selectedAddress
-          }
+          disabled={cartTotal < MIN_ORDER_VALUE || loading || !selectedAddress}
         >
           Proceed
         </Button>

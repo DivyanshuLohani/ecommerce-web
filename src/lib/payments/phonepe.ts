@@ -38,9 +38,7 @@ async function generateChecksum(payload: any) {
   return dataSha256 + "###" + process.env.PHONE_PE_SALT_INDEX;
 }
 
-export async function createTransaction(
-  total: number
-): Promise<{
+export async function createTransaction(total: number): Promise<{
   redirectUrl: string;
   transactionid: string;
   checksum: string;

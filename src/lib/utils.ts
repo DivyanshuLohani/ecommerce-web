@@ -32,3 +32,7 @@ export function discountPercent(orignal: number, discount: number) {
   const discountPercent = (((orignal - discount) / orignal) * 100).toFixed(0);
   return discountPercent;
 }
+
+export function plural(word: string, count: number, suffix: string = "s") {
+  return count > 1 ? word + suffix : word;
+}

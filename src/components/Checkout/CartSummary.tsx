@@ -1,10 +1,11 @@
 "use client";
 import { useCart } from "@/context/CartProvider";
 import { formatCurrency } from "@/lib/utils";
-import { TOTAL_CART_VALUE_TO_CHECKOUT } from "./CheckoutForm";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 
+const MIN_ORDER_VALUE =
+  Number(process.env.NEXT_PUBLIC_MIN_ORDER_VALUE as string) || 49900;
 const CartSummary = () => {
   const { products, cartTotal, setCartOpen } = useCart();
   const router = useRouter();
@@ -33,17 +34,17 @@ const CartSummary = () => {
         <h3 className="text-lg font-bold">
           Total: ₹ {formatCurrency(cartTotal)}
           <br />
-          {cartTotal < TOTAL_CART_VALUE_TO_CHECKOUT && (
+          {cartTotal < MIN_ORDER_VALUE && (
             <>
               <span className="text-sm text-red-500">
                 Cart value must be greater than Rs.{" "}
-                {formatCurrency(TOTAL_CART_VALUE_TO_CHECKOUT)}
+                {formatCurrency(MIN_ORDER_VALUE)}
               </span>
               <br />
               <span className="text-sm text-red-500">
                 Add items worth Rs.{" "}
-                {formatCurrency(TOTAL_CART_VALUE_TO_CHECKOUT - cartTotal)} to
-                poceed to checkout
+                {formatCurrency(MIN_ORDER_VALUE - cartTotal)} to poceed to
+                checkout
               </span>
               <br />
               <Button

@@ -1,4 +1,3 @@
-import { TOTAL_CART_VALUE_TO_CHECKOUT } from "@/components/Checkout/CheckoutForm";
 import ContactDetails from "@/components/ContactDetails";
 import Link from "next/link";
 import React from "react";
@@ -135,7 +134,11 @@ const TermsAndConditions = () => {
         <h2 className="text-xl font-semibold mb-4">Minimum Order Value</h2>
         <p className="mb-6">
           Orders must meet a minimum value of ₹
-          {Math.round(TOTAL_CART_VALUE_TO_CHECKOUT / 100)}/- to be processed.
+          {Math.round(
+            (Number(process.env.NEXT_PUBLIC_MIN_ORDER_VALUE as string) ||
+              49900) / 100
+          )}
+          /- to be processed.
         </p>
         {/* Order Acceptance */}
         <h2 className="text-xl font-semibold mb-4">

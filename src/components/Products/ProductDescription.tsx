@@ -1,7 +1,7 @@
 "use client";
 import { Separator } from "@/components/ui/separator";
 import type { Product, ProductReview } from "@prisma/client";
-import { discountPercent, formatCurrency } from "@/lib/utils";
+import { discountPercent, formatCurrency, plural } from "@/lib/utils";
 import AddToCart from "../Cart/AddToCart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { motion } from "framer-motion"; // Import Framer Motion
@@ -63,7 +63,7 @@ export default function ProductDetails({
           </motion.div>
 
           <motion.span className="text-sm text-muted-foreground">
-            {reviews.length} reviews
+            {reviews.length} {plural("review", reviews.length)}
           </motion.span>
         </motion.div>
       )}

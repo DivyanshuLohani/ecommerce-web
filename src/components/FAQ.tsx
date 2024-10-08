@@ -6,7 +6,6 @@ import {
 } from "@/components/ui/accordion";
 import Link from "next/link";
 import Image from "next/image";
-import { TOTAL_CART_VALUE_TO_CHECKOUT } from "./Checkout/CheckoutForm";
 
 export default function Component() {
   return (
@@ -43,9 +42,13 @@ export default function Component() {
               <AccordionContent className="px-6 py-4 text-muted-foreground">
                 <p>
                   The minimum order value for our products is Rs.{" "}
-                  {Math.round(TOTAL_CART_VALUE_TO_CHECKOUT / 100)}. This ensures
-                  that we can provide the best possible shipping rates and
-                  customer service for your order.
+                  {Math.round(
+                    (Number(
+                      process.env.NEXT_PUBLIC_MIN_ORDER_VALUE as string
+                    ) || 49900) / 100
+                  )}
+                  . This ensures that we can provide the best possible shipping
+                  rates and customer service for your order.
                 </p>
               </AccordionContent>
             </AccordionItem>
