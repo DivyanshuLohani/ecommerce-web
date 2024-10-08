@@ -74,9 +74,10 @@ const StarRating = ({ productId }: { productId: number }) => {
           name="productId"
         />
         <input
-          type="text"
+          type="number"
           className="hidden"
-          defaultValue={rating}
+          value={rating}
+          onChange={(e) => setRating(Number(e.target.value))}
           name="rating"
         />
 
